@@ -1,0 +1,101 @@
+\clearpage
+
+\pagenumbering{roman}
+
+%ABSTRAKT
+
+\chapter*{Abstrakt}
+
+Tato diplomová práce se zabývá návrhem a realizací rozšířené verze \emph{modulární platformy MoSeZ} pro řízení elektromagnetických aktuátorů.
+Hlavním cílem bylo rozšíření funkcí a zvýšení spolehlivosti původní verze MoSeZ Rev. A.
+
+Vylepšení zahrnují novou revizi jednokanálového proudového zdroje s výstupním proudem až \SI{8}{\ampere},
+podporu střídavého výstupu pomocí přímé digitální syntézy \emph{DDS} a implementaci softwarové \textit{PID} regulace ve firmwaru.
+
+Modulární architektura byla zachována – vícekanálové systémy lze sestavit pomocí sběrnice \textit{CAN} a vlastního komunikačního protokolu.
+Praktická část zahrnuje návrh \textit{DPS}, vývoj firmwaru v jazyce \textit{C++} a vývoj aplikace \textit{Staff 2.0} pro konfiguraci proudového výstupu zařízení.
+
+Laboratorní měření prokázala přesnost řízení v režimech DC i AC.
+Zařízení bylo úspěšně nasazeno k řízení čtyř voicecoilů ve vibračním podavači firmy \emph{DESSEQ}
+a závěrem jsou nastíněny možné směry dalšího vývoje.
+
+\vfill\section*{Klíčová slova}
+
+
+proudový zdroj, elektromagnetické aktuátory, H-můstek, modulární platforma, PID regulace, přímá digitální syntéza, embedded systémy, CAN sběrnice
+
+
+\vspace{1cm}
+
+\newpage
+\chapter*{Abstract}
+
+This thesis deals with the design and implementation of an extended version of the \emph{modular MoSeZ} platform for controlling electromagnetic actuators.
+The main objective was to extend the functionality and improve the reliability of the original MoSeZ Rev. A version.
+
+Enhancements include a new revision of the single-channel current source with an output current up to \SI{8}{\ampere}, 
+support for alternating output using direct digital synthesis \textit{DDS}, 
+and the implementation of software-based \textit{PID} control in \textit{firmware}.
+
+The modular architecture has been retained — multi-channel systems can be assembled using the \textit{CAN} bus and a custom communication protocol. 
+The practical part includes the design of the \textit{PCB}, \textit{firmware} development in \textit{C++}, and the \textit{Staff 2.0} application for configuring the current output.
+
+Laboratory measurements confirmed control precision in both DC and AC modes. 
+The system was successfully deployed to control four voice coils in a \emph{DESSEQ} vibratory feeder, 
+and possible directions for further development are outlined.
+
+
+\vfill\section*{Keywords}
+\noindent
+current source, electromagnetic actuators, H-bridge, modular platform, PID control, direct digital synthesis, embedded systems, CAN bus
+\vspace{1cm}
+
+%PODEKOVANI
+
+\newpage
+\clearpage
+
+\vspace*{3cm}
+\section*{Poděkování}\vspace{1.5em}
+\noindent
+Rád bych poděkoval vedoucímu diplomové práce, \emph{Ing. Martinu Vítkovi}, za cenné odborné rady, vstřícný přístup a metodické vedení, 
+které významně přispěly k úspěšnému dokončení této práce. Dále děkuji společnosti \emph{DESSEQ} za poskytnutí \emph{voicecoilů} a 
+experimentálních vibračních stolic a za možnost ověřit návrh v praxi.  Poděkování patří také \emph{Ing. Zdeňku Kubíkovi, Ph.D.}, 
+který umožnil měření vyzařování v EMC komoře. 
+V neposlední řadě děkuji za sílu a vnitřní klid, které mi byly v průběhu práce dopřány z míst, jež přesahují každodennost.
+
+
+\newpage
+\clearpage
+
+\vspace*{3cm}
+\section*{Prohlášení}\vspace{1.5em}
+\noindent
+Během přípravy této práce autor použil \textit{ChatGPT} a \textit{Gemini AI}
+k zlepšení čitelnosti a jazykové kvality rukopisu. 
+Po použití tohoto nástroje/služby autor pečlivě zkontroloval a
+upravil obsah podle potřeby a přebírá plnou odpovědnost za výsledný obsah práce.
+
+
+
+% Tato diplomová práce se zaměřuje na návrh a realizaci rozšířené verze modulární platformy \emph{MoSeZ} určené pro řízení elektromagnetických aktuátorů. 
+% Cílem práce bylo zvýšit modularitu, spolehlivost a funkční rozšiřitelnost původní verze zařízení \emph{MoSeZ Rev. A}, 
+% a přizpůsobit ji pro širší spektrum technických aplikací.
+
+% Navržená vylepšení zahrnují novou hardwarovou revizi jednokanálového proudového zdroje s výstupním proudem až \SI{8}{\ampere}, 
+% doplněnou o podporu střídavých proudových výstupů pomocí přímé digitální syntézy (\emph{DDS}) a 
+% řešení regulace pomocí softwarového \emph{PID} regulátoru.
+
+% Významným aspektem návrhu je zachování modulární architektury platformy, 
+% která umožňuje sestavení vícekanálového systému z jednotlivých jednokanálových modulů propojených pomocí průmyslové sběrnice \emph{CAN}. 
+% Vlastní komunikační protokol založený na sběrnici \emph{CAN} zajišťuje kompatibilitu a integraci do rozsáhlejších systémů.
+
+% Teoretická část práce se zabývá rešerší komunikačních protokolů využívajících sběrnici \emph{CAN}.
+% Praktická část zahrnuje návrh desky plošných spojů, vývoj firmwaru v jazyce \emph{C++} a 
+% tvorbu desktopové aplikace \emph{Staff 2.0} pro konfiguraci a diagnostiku proudového výstupu zařízení.
+
+% Navržené řešení bylo ověřeno sérií laboratorních měření zaměřených na výstupní proud, 
+% účinnost, harmonické zkreslení a přesnost regulace. 
+% Výsledky prokázaly, že zařízení splňuje požadavky na přesné řízení elektromagnetických aktuátorů v režimech \emph{DC} i \emph{AC}.
+% Zařízení bylo rovněž úspěšně nasazeno pro řízení čtyř voicecoilů v experimentálním vibračním podavači firmy \emph{DESSEQ}. 
+% Závěrem je navrženo možné směřování dalšího vývoje platformy.

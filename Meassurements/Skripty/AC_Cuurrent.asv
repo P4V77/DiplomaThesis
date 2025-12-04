@@ -1,0 +1,159 @@
+% MATLAB Script to Import and Plot Power Source THD Data from MoSeZ_meassurements.xlsx
+% Author: Electrical Engineering Analysis
+% Date: 2023-11-15
+
+clc; clear; close all;
+
+%% 1. Import Data from Excel
+filename = '/home/pavel/modular-current-source/Meassurements/Mereni/MoSeZ_meassurements.xlsx';
+sheet = 'AC Current';
+
+% Read the complete data table
+data = readtable(filename, 'Sheet', sheet);
+
+% Extract relevant data ranges (adjust these indices based on your actual Excel structure)
+% Assuming data starts at row 2 and has the structure you showed
+sin_12V = data{2:5, 2:4};     % Sinus 10Hz 12V [I_set, I_out, I1_dBA, I1_A, THD]
+sin_48V = data{7:10,2:4};      % Sinus 10Hz 48V
+sq_12V = data{2:5, 5:7};      % Obdélník 10Hz 12V
+sq_48V = data{7:10, 5:7};      % Obdélník 10Hz 48V
+tri_12V = data{2:5, 8:10};    % Trojúhelník 10Hz 12V
+tri_48V = data{7:10, 8:10};    % Trojúhelník 10Hz 48V
+
+current_set_ampl = [1; 4; 8];       % Set currents [A]
+
+%% 2. Create Professional Plots with Custom Styling
+
+% Set custom color palette
+colors = lines(6); % MATLAB's lines colormap has 6 distinct colors
+
+% Figure 1: THD Comparison
+figure('Name', 'THD Analysis', 'Position', [100 100 1200 600], 'Color', 'w');
+
+% 12V Results
+subplot(1,2,1);
+hold on;
+grid on;
+box on;
+
+p1 = plot(current_set_ampl, sin_12V(4,:), '-o', 'Color', colors(1,:), 'LineWidth', 2, 'MarkerSize', 8);
+p2 = plot(current_set_ampl, sq_12V(4,:), '-s', 'Color', colors(2,:), 'LineWidth', 2, 'MarkerSize', 8);
+p3 = plot(current_set_ampl, tri_12V(4,:), '-^', 'Color', colors(3,:), 'LineWidth', 2, 'MarkerSize', 8);
+
+title('THD at 12V Input', 'FontSize', 12, 'FontWeight', 'bold');
+xlabel('Set Current [A]', 'FontSize', 11);
+ylabel('THD [%]', 'FontSize', 11);
+legend([p1 p2 p3], {'Sinusoidal', 'Square', 'Triangle'}, 'Location', 'northwest');
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+ylim([0 60]);
+
+% 48V Results
+subplot(1,2,2);
+hold on;
+grid on;
+box on;
+
+p4 = plot(current_set_ampl, sin_48V(4,:), '-o', 'Color', colors(1,:), 'LineWidth', 2, 'MarkerSize', 8);
+p5 = plot(current_set_ampl, sq_48V(4,:), '-s', 'Color', colors(2,:), 'LineWidth', 2, 'MarkerSize', 8);
+p6 = plot(current_set_ampl, tri_48V(4,:), '-^', 'Color', colors(3,:), 'LineWidth', 2, 'MarkerSize', 8);
+
+title('THD at 48V Input', 'FontSize', 12, 'FontWeight', 'bold');
+xlabel('Set Current [A]', 'FontSize', 11);
+ylabel('THD [%]', 'FontSize', 11);
+legend([p4 p5 p6], {'Sinusoidal', 'Square', 'Triangle'}, 'Location', 'northwest');
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+ylim([0 60]);
+
+% Save figure
+saveas(gcf, 'THD_Analysis.png');
+
+%% Figure 2: Current Efficiency
+figure('Name', 'Current Efficiency', 'Position', [100 100 1200 600], 'Color', 'w');
+
+% Calculate efficiency (I_out/I_set)
+eff_sin_12V = sin_12V(2,:).*sqrt(2)./current_set_ampl;
+eff_sq_12V = sq_12V(2,:)./current_set_ampl;
+eff_tri_12V = tri_12V(2,:)./current_set_ampl;
+
+eff_sin_48V = sin_48V(2,:)./current_set_ampl;
+eff_sq_48V = sq_48V(2,:)./current_set_ampl;
+eff_tri_48V = tri_48V(2,:)./current_set_ampl;
+
+% 12V Results
+subplot(1,2,1);
+hold on;
+grid on;
+box on;
+
+p1 = plot(current_set_ampl, eff_sin_12V, '-o', 'Color', colors(1,:), 'LineWidth', 2, 'MarkerSize', 8);
+p2 = plot(current_set_ampl, eff_sq_12V, '-s', 'Color', colors(2,:), 'LineWidth', 2, 'MarkerSize', 8);
+p3 = plot(current_set_ampl, eff_tri_12V, '-^', 'Color', colors(3,:), 'LineWidth', 2, 'MarkerSize', 8);
+
+title('Current Efficiency at 12V', 'FontSize', 12, 'FontWeight', 'bold');
+xlabel('Set Current [A]', 'FontSize', 11);
+ylabel('I_{out}/I_{set} Ratio', 'FontSize', 11);
+legend([p1 p2 p3], {'Sinusoidal', 'Square', 'Triangle'}, 'Location', 'best');
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+ylim([0.5 1.1]);
+
+% 48V Results
+subplot(1,2,2);
+hold on;
+grid on;
+box on;
+
+p4 = plot(current_set_ampl, eff_sin_48V, '-o', 'Color', colors(1,:), 'LineWidth', 2, 'MarkerSize', 8);
+p5 = plot(current_set_ampl, eff_sq_48V, '-s', 'Color', colors(2,:), 'LineWidth', 2, 'MarkerSize', 8);
+p6 = plot(current_set_ampl, eff_tri_48V, '-^', 'Color', colors(3,:), 'LineWidth', 2, 'MarkerSize', 8);
+
+title('Current Efficiency at 48V', 'FontSize', 12, 'FontWeight', 'bold');
+xlabel('Set Current [A]', 'FontSize', 11);
+ylabel('I_{out}/I_{set} Ratio', 'FontSize', 11);
+legend([p4 p5 p6], {'Sinusoidal', 'Square', 'Triangle'}, 'Location', 'best');
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+ylim([0.5 1.1]);
+
+% Save figure
+saveas(gcf, 'Current_Efficiency.png');
+
+%% Figure 3: Fundamental Current Component
+figure('Name', 'Fundamental Current Analysis', 'Position', [100 100 1200 600], 'Color', 'w');
+
+% 12V Results
+subplot(1,2,1);
+hold on;
+grid on;
+box on;
+
+p1 = plot(current_set_ampl, sin_12V(:,4), '-o', 'Color', colors(1,:), 'LineWidth', 2, 'MarkerSize', 8);
+p2 = plot(current_set_ampl, sq_12V(:,4), '-s', 'Color', colors(2,:), 'LineWidth', 2, 'MarkerSize', 8);
+p3 = plot(current_set_ampl, tri_12V(:,4), '-^', 'Color', colors(3,:), 'LineWidth', 2, 'MarkerSize', 8);
+p0 = plot(current_set_ampl, current_set_ampl, '--k', 'LineWidth', 1.5);
+
+title('Fundamental Current at 12V', 'FontSize', 12, 'FontWeight', 'bold');
+xlabel('Set Current [A]', 'FontSize', 11);
+ylabel('Fundamental Current I_1 [A]', 'FontSize', 11);
+legend([p1 p2 p3 p0], {'Sinusoidal', 'Square', 'Triangle', 'Ideal'}, 'Location', 'northwest');
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+
+% 48V Results
+subplot(1,2,2);
+hold on;
+grid on;
+box on;
+
+p4 = plot(current_set_ampl, sin_48V(:,4), '-o', 'Color', colors(1,:), 'LineWidth', 2, 'MarkerSize', 8);
+p5 = plot(current_set_ampl, sq_48V(:,4), '-s', 'Color', colors(2,:), 'LineWidth', 2, 'MarkerSize', 8);
+p6 = plot(current_set_ampl, tri_48V(:,4), '-^', 'Color', colors(3,:), 'LineWidth', 2, 'MarkerSize', 8);
+p0 = plot(current_set_ampl, current_set_ampl, '--k', 'LineWidth', 1.5);
+
+title('Fundamental Current at 48V', 'FontSize', 12, 'FontWeight', 'bold');
+xlabel('Set Current [A]', 'FontSize', 11);
+ylabel('Fundamental Current I_1 [A]', 'FontSize', 11);
+legend([p4 p5 p6 p0], {'Sinusoidal', 'Square', 'Triangle', 'Ideal'}, 'Location', 'northwest');
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+
+% Save figure
+saveas(gcf, 'Fundamental_Current.png');
+
+disp('Analysis complete. Figures saved as PNG files.');

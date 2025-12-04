@@ -1,0 +1,160 @@
+% --------------------------
+% --- Základní nastavení ---
+% --------------------------
+% Nastavení jazyka
+\usepackage[czech]{babel}      % Czech language support
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}       % Proper Czech font encoding
+
+\usepackage{csquotes}
+\usepackage{amsmath,amssymb,latexsym,amsfonts}
+% \usepackage{todonotes}
+\usepackage{placeins} % Přidat do preambule
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{pdfpages}  % Make sure this is in your preamble
+
+
+
+% Přidání vlastních proměnných (jméno autora apod.)
+\input{styl/nastaveni.tex}
+
+% ---------------------------
+% --- Nastavení dokumentu ---
+% ---------------------------
+\usepackage{pdfpages}	% Obrázek přes celou stránku
+\usepackage[top=2.3cm, left=2.5cm, right=2.5cm, bottom=2.3cm]{geometry}	% Definuje vzhled strany
+
+\renewcommand{\baselinestretch}{1.5}
+\setlength{\parskip}{1em} % Nastaveni mezer mezi odstavci
+% \setlength{\parindent}{0pt} % Odstraní odsazení odstavců
+
+\usepackage[nottoc,numbib]{tocbibind}	% Přidá odkaz na literaturu do obsahu
+\usepackage{tocloft}	% Seznam obrázků, tabulek, obsah nemá číslo
+
+% Definice barev
+\definecolor{blue-light}{RGB}{91, 155, 213}
+\definecolor{blue-FEL}{RGB}{7, 67, 145}
+\definecolor{blue-dark}{RGB}{3, 31, 68}
+
+\usepackage{indentfirst}	% Odsazeni prvního odstavce
+\setcounter{secnumdepth}{3}	% Nastavení 3 podúrovní číslování nadpisu
+\setcounter{tocdepth}{2}	% Nastaveni 2 podúrovní číslování nadpisu do obsahu
+\renewcommand\labelitemi{--} % Nastaveni pomlčky
+
+\usepackage{titlesec}		% Změna třídy chapter
+\titlespacing*{\chapter}{0pt}{-25pt}{30pt}
+\titleformat{\chapter}[hang]{\Huge\bfseries}{\thechapter\hspace{20pt}{}\hspace{20pt}}{0pt}{\Huge\bfseries}
+
+% ---------------------------
+% -- Obrázky, tabulky, ... --
+% ---------------------------
+\usepackage{graphicx}	% Vkládání obrázků, barvy
+\usepackage{float}		% Možné umístění obrázků přesně kam chci + minipage
+\usepackage[labelfont=bf]{caption} % Popisky obrázků s tučným úvodem
+%\usepackage{url}
+\usepackage{wrapfig}	% Obtékání textu kolem obrázku
+
+\usepackage{tabularx}	% Lepší formátování tabulek
+\usepackage{array}		% Lepší tabulky (zarovnání, šířka)
+\usepackage{longtable}
+\usepackage{booktabs}     % hezčí čáry
+
+
+% Číslování obrázků, tabulek a rovnic 1,2,3 namísto 1.1, 1.2, 2.1
+\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\thetable}{\arabic{table}}
+\renewcommand{\theequation}{\arabic{equation}}
+
+% Čísla obrázků a tabulek rostou napříč více kapitolami (default je, že s každou sekcí se začíná od 1)
+\usepackage{chngcntr}
+\counterwithout{figure}{chapter}
+\counterwithout{table}{chapter}
+\counterwithout{equation}{chapter}
+
+\usepackage{fancyref}	% Odkazy
+
+\usepackage{listings}	% Kódy
+\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}	% Formátování matlab kódu
+
+% ---------------------------
+% --- Jednotky a veličiny ---
+% ---------------------------
+\usepackage{siunitx}	% Formátování čísel s jednotkou (řeší nezalomitelné mezery, správné formátování jednotek apod.
+\sisetup{product-units = single}	% Při dvou hodnotách vypíše jednotku jen na konci
+\sisetup{mode=text,range-phrase = {\text{~až~}}, range-units=single}	% Při rozsahu vypíše mezi hodnotami "až"
+\sisetup{output-decimal-marker = {,}}
+
+\usepackage{textcomp}	% Aby gynsymb neukazoval error s \perthousand and \micro
+\usepackage{gensymb}	% Symboly jako degree, micro atd.
+
+% ---------------------------
+% - Záhlaví, zápatí stránek -
+% ---------------------------
+\usepackage{fancyhdr}
+\headheight 24pt	% nastavení výšky záhlaví
+
+\renewcommand{\headrule}{\color{blue-light}{\rule{\textwidth}{0.5pt}}} % Redefinice barvy linky v záhlaví
+
+\fancypagestyle{plain}{%
+	\fancyhf{}
+
+	\fancyhead[L]{{\scriptsize {\thesistopic}}}
+	\fancyhead[R]{{\scriptsize {\thesisauthor, } \number\year}}
+
+	\fancyfoot[C]{\thepage}
+}
+
+% -------------------------
+% -- Nastavení řádkování --
+% -------------------------
+\usepackage{setspace}
+%\singlespacing %jednoduche radkovani
+\onehalfspacing %jedna a pul radkovani
+%\doublespacing %dvojite radkovani
+
+% --------------------------
+% -- Nastavení literatury --
+% --------------------------
+\usepackage[
+%	backend=bibtex,
+	style=iso-numeric
+]{biblatex}
+\addbibresource{bib.bib}
+
+% -------------------------------------
+% - Nastavení výstupního PDF a odkazů -
+% -------------------------------------
+\usepackage[unicode]{hyperref} % měl by být načten jako jeden z posledních https://tex.stackexchange.com/questions/1863/which-packages-should-be-loaded-after-hyperref-instead-of-before
+\hypersetup{
+	colorlinks=true,
+    linkcolor=blue-dark,
+	citecolor=blue-dark,
+	urlcolor=blue-FEL,
+	pdfauthor={\thesisauthor},
+	pdftitle={\thesistopic}
+}
+% --------------------------
+
+\input{styl/commands.tex}   % Vlozeni vytorenych prikazu, ktere obsahuje soubor commands
+
+\input{styl/math.tex}  % Vložení definic matematiky
+
+%%%% NAVÍC %%%
+% Reference příloh
+\newcommand{\pref}[1]{příloha na straně \pageref{#1}, obr. \nameref{#1}}
+\newcommand{\rref}[1]{rov. \eqref{#1}}
+\newcommand{\oref}[1]{obr. \eqref{#1}}
+
+\newcommand{\Pref}[1]{Příloha na straně \pageref{#1}, obr. \nameref{#1}}
+\newcommand{\Rref}[1]{Rov. \eqref{#1}}
+\newcommand{\Oref}[1]{Obr. \eqref{#1}}
+
+
+% Listing
+\lstset{literate=
+    {á}{{\'a}}1 {č}{{\v{c}}}1 {ď}{{\v{d}}}1 {é}{{\'e}}1 {ě}{{\v{e}}}1 {í}{{\'i}}1 {ň}{{\v{n}}}1 
+    {ó}{{\'o}}1 {ř}{{\v{r}}}1 {š}{{\v{s}}}1 {ť}{{\v{t}}}1 {ú}{{\'u}}1 {ů}{{\r{u}}}1 {ý}{{\'y}}1 {ž}{{\v{z}}}1
+    {Á}{{\'A}}1 {Č}{{\v{C}}}1 {Ď}{{\v{D}}}1 {É}{{\'E}}1 {Ě}{{\v{E}}}1 {Í}{{\'I}}1 {Ň}{{\v{N}}}1 
+    {Ó}{{\'O}}1 {Ř}{{\v{R}}}1 {Š}{{\v{S}}}1 {Ť}{{\v{T}}}1 {Ú}{{\'U}}1 {Ů}{{\r{U}}}1 {Ý}{{\'Y}}1 {Ž}{{\v{Z}}}1
+}

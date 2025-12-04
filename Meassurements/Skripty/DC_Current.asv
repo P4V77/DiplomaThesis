@@ -1,0 +1,174 @@
+%% 3. Analýza DC měření
+sheet_dc = 'DC Current';
+filename = '/home/pavel/modular-current-source/Meassurements/Mereni/MoSeZ_meassurements.xlsx'
+data_dc = readtable(filename, 'Sheet', sheet_dc);
+
+% Vstupní data
+nastaveny_proud = [-8 -4 -1 -0.1 0.1 1 4 8];
+
+% Výstupní proudy
+Iout_12V_1R = data_dc{3,3:10};
+Iout_48V_1R = data_dc{10,3:10};
+Iout_48V_3R = data_dc{17,3:10};
+
+% Zvlnění (peak-to-peak)
+Iripple_12V_1R = data_dc{4,3:10};
+Iripple_48V_1R = data_dc{11,3:10};
+Iripple_48V_3R = data_dc{18,3:10};
+
+% Zvlnění v procentech
+rip_perc_12V_1R = data_dc{5,3:10};
+rip_perc_48V_1R = data_dc{12,3:10};
+rip_perc_48V_3R = data_dc{19,3:10};
+
+% IRMS
+irms_12V_1R = data_dc{6,3:10};
+irms_48V_1R = data_dc{13,3:10};
+irms_48V_3R = data_dc{20,3:10};
+
+% Nastavení barev
+barvy = lines(3);
+
+%% Graf 1: Výstupní proud vs. nastavený proud
+figure(1); clf;
+set(gcf, 'Name','Výstupní charakteristika','Position',[100 100 800 600],'Color','w');
+hold on; grid on; box on;
+
+% Regresní analýza a vykreslení dat
+datasets = {
+    Iout_12V_1R, '--', barvy(1,:), '12V / 1Ω';
+    Iout_48V_1R, '--', barvy(2,:), '48V / 1Ω';
+    Iout_48V_3R, '--', barvy(3,:), '48V / 3Ω'
+};
+
+for i = 1:size(datasets,1)
+    Iout = datasets{i,1};
+    linestyle = datasets{i,2};
+    color = datasets{i,3};
+    label = datasets{i,4};
+
+    % Plot dat
+    plot(nastaveny_proud, Iout, '-o', 'LineWidth', 2, 'Color', color, 'MarkerSize', 8);
+
+    % Lineární regrese (polyfit 1. řádu)
+    coeffs = polyfit(nastaveny_proud, Iout, 1);
+    Iout_fit = polyval(coeffs, nastaveny_proud);
+    plot(nastaveny_proud, Iout_fit, linestyle, 'Color', color, 'LineWidth', 1.5);
+
+    % Výpočet R^2
+    SS_res = sum((Iout - Iout_fit).^2);
+    SS_tot = sum((Iout - mean(Iout)).^2);
+    R2 = 1 - SS_res / SS_tot;
+
+    % Výpis do konzole
+    fprintf('%s: směrnice = %.4f, R^2 = %.4f\n', label, coeffs(1), R2);
+end
+
+xlabel('Nastavený proud [A]', 'FontSize', 11);
+ylabel('Výstupní proud [A]', 'FontSize', 11);
+title('Výstupní charakteristika zdroje', 'FontSize', 12, 'FontWeight','bold');
+legend({'12V / 1Ω','Regrese','48V / 1Ω','Regrese','48V / 3Ω','Regrese'}, 'Location', 'northwest');
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+
+% Uložení
+saveas(gcf, '../Grafy/DC_vystupni_proud.png');
+saveas(gcf, '../Grafy/DC_vystupni_proud.fig');
+
+
+%% Graf 2: Zvlnění proudu (peak-to-peak)
+figure(2); clf;
+set(gcf, 'Name','Zvlnění proudu','Position',[100 100 800 600],'Color','w');
+hold on; grid on; box on;
+
+datasets = {
+    Iripple_12V_1R, '--', barvy(1,:), '12V / 1Ω';
+    Iripple_48V_1R, '--', barvy(2,:), '48V / 1Ω';
+    Iripple_48V_3R, '--', barvy(3,:), '48V / 3Ω'
+};
+
+for i = 1:size(datasets,1)
+    y = datasets{i,1};
+    linestyle = datasets{i,2};
+    color = datasets{i,3};
+    label = datasets{i,4};
+
+    plot(nastaveny_proud, y, '-o', 'LineWidth', 2, 'Color', color, 'MarkerSize', 8);
+    [fit, coeffs, R2] = linear_regression(nastaveny_proud, y);
+    plot(nastaveny_proud, fit, linestyle, 'Color', color, 'LineWidth', 1.5);
+    fprintf('%s - Zvlnění pp: směrnice = %.4f, R^2 = %.4f\n', label, coeffs(1), R2);
+end
+
+xlabel('Nastavený proud [A]', 'FontSize', 11);
+ylabel('Zvlnění I_{pp} [A]', 'FontSize', 11);
+title('Zvlnění výstupního proudu (peak-to-peak)', 'FontSize', 12, 'FontWeight','bold');
+legend({'12V / 1Ω','Regrese','48V / 1Ω','Regrese','48V / 3Ω','Regrese'}, 'Location', 'northwest');
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+saveas(gcf, '../Grafy/DC_zvlneni_pp.png');
+saveas(gcf, '../Grafy/DC_zvlneni_pp.fig');
+
+
+%% Graf 3: Relativní zvlnění v procentech
+figure(3); clf;
+set(gcf, 'Name','Relativní zvlnění','Position',[100 100 800 600],'Color','w');
+hold on; grid on; box on;
+
+datasets = {
+    rip_perc_12V_1R, '--', barvy(1,:), '12V / 1Ω';
+    rip_perc_48V_1R, '--', barvy(2,:), '48V / 1Ω';
+    rip_perc_48V_3R, '--', barvy(3,:), '48V / 3Ω'
+};
+
+for i = 1:size(datasets,1)
+    y = datasets{i,1};
+    linestyle = datasets{i,2};
+    color = datasets{i,3};
+    label = datasets{i,4};
+
+    plot(nastaveny_proud, y, '-o', 'LineWidth', 2, 'Color', color, 'MarkerSize', 8);
+    [fit, coeffs, R2] = linear_regression(nastaveny_proud, y);
+    plot(nastaveny_proud, fit, linestyle, 'Color', color, 'LineWidth', 1.5);
+    fprintf('%s - Rel. zvlnění: směrnice = %.4f, R^2 = %.4f\n', label, coeffs(1), R2);
+end
+
+xlabel('Nastavený proud [A]', 'FontSize', 11);
+ylabel('Zvlnění [%]', 'FontSize', 11);
+title('Relativní zvlnění výstupního proudu', 'FontSize', 12, 'FontWeight','bold');
+legend({'12V / 1Ω','Regrese','48V / 1Ω','Regrese','48V / 3Ω','Regrese'}, 'Location', 'northwest');
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+saveas(gcf, '../Grafy/DC_relativni_zvlneni.png');
+saveas(gcf, '../Grafy/DC_relativni_zvlneni.fig');
+
+
+%% Graf 4: Efektivní hodnota proudu (IRMS)
+figure(4); clf;
+set(gcf, 'Name','Efektivní hodnota proudu','Position',[100 100 800 600],'Color','w');
+hold on; grid on; box on;
+
+datasets = {
+    irms_12V_1R, '--', barvy(1,:), '12V / 1Ω';
+    irms_48V_1R, '--', barvy(2,:), '48V / 1Ω';
+    irms_48V_3R, '--', barvy(3,:), '48V / 3Ω'
+};
+
+for i = 1:size(datasets,1)
+    y = datasets{i,1};
+    linestyle = datasets{i,2};
+    color = datasets{i,3};
+    label = datasets{i,4};
+
+    plot(nastaveny_proud, y, '-o', 'LineWidth', 2, 'Color', color, 'MarkerSize', 8);
+    [fit, coeffs, R2] = linear_regression(nastaveny_proud, y);
+    plot(nastaveny_proud, fit, linestyle, 'Color', color, 'LineWidth', 1.5);
+    fprintf('%s - IRMS: směrnice = %.4f, R^2 = %.4f\n', label, coeffs(1), R2);
+end
+
+xlabel('Nastavený proud [A]', 'FontSize', 11);
+ylabel('I_{RMS} [A]', 'FontSize', 11);
+title('Efektivní hodnota výstupního proudu', 'FontSize', 12, 'FontWeight','bold');
+legend({'12V / 1Ω','Regrese','48V / 1Ω','Regrese','48V / 3Ω','Regrese'}, 'Location', 'northwest');
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+saveas(gcf, '../Grafy/DC_IRMS.png');
+saveas(gcf, '../Grafy/DC_IRMS.fig');
+
+
+disp('DC analýza dokončena. Grafy uloženy jako samostatné soubory.');

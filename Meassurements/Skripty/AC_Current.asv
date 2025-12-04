@@ -1,0 +1,89 @@
+% MATLAB Script pro analýzu zdroje proudu z MoSeZ_meassurements.xlsx
+% Autor: Elektrotechnická analýza
+% Datum: 15.11.2023
+
+clc; clear; close all;
+
+%% 1. Načtení dat z Excelu
+filename = '/home/pavel/modular-current-source/Meassurements/Mereni/MoSeZ_meassurements.xlsx';
+sheet = 'AC Current';
+
+% Načtení datové tabulky
+data = readtable(filename, 'Sheet', sheet);
+
+% Extrakce relevantních dat
+sin_12V = data{1:4, 2:4};     % Sinus 10Hz 12V [I_nastavený, I_výstup, I1_dBA, I1_A, THD]
+sin_48V = data{6:9,2:4};      % Sinus 10Hz 48V
+sq_12V = data{1:4, 5:7};       % Obdélník 10Hz 12V
+sq_48V = data{6:9, 5:7};      % Obdélník 10Hz 48V
+tri_12V = data{1:4, 8:10};     % Trojúhelník 10Hz 12V
+tri_48V = data{6:9, 8:10};    % Trojúhelník 10Hz 48V
+
+proud_nastaven = [1; 4; 8];    % Nastavené proudy [A]
+
+%% 2. Vytvoření profesionálních grafů
+
+% Nastavení barev
+barvy = lines(6);
+
+% Obrázek 1: Kombinovaný graf THD a základní harmonické
+figure(1);
+
+% THD graf
+hold on;
+grid on;
+box on;
+
+% 12V
+p1 = plot(proud_nastaven, sin_12V(4,:), '-o', 'Color', barvy(1,:), 'LineWidth', 2, 'MarkerSize', 8, 'MarkerFaceColor', barvy(1,:));
+p2 = plot(proud_nastaven, sq_12V(4,:), '-s', 'Color', barvy(2,:), 'LineWidth', 2, 'MarkerSize', 8, 'MarkerFaceColor', barvy(2,:));
+p3 = plot(proud_nastaven, tri_12V(4,:), '-^', 'Color', barvy(3,:), 'LineWidth', 2, 'MarkerSize', 8, 'MarkerFaceColor', barvy(3,:));
+
+% 48V
+p4 = plot(proud_nastaven, sin_48V(4,:), '--o', 'Color', barvy(1,:), 'LineWidth', 2, 'MarkerSize', 8);
+p5 = plot(proud_nastaven, sq_48V(4,:), '--s', 'Color', barvy(2,:), 'LineWidth', 2, 'MarkerSize', 8);
+p6 = plot(proud_nastaven, tri_48V(4,:), '--^', 'Color', barvy(3,:), 'LineWidth', 2, 'MarkerSize', 8);
+
+title('Celková harmonické zkreslení (THD)', 'FontSize', 12, 'FontWeight', 'bold');
+xlabel('Nastavený proud [A]', 'FontSize', 11);
+ylabel('THD [%]', 'FontSize', 11);
+legend([p1 p2 p3 p4 p5 p6], {'Sinus 12V', 'Obdélník 12V', 'Trojúhelník 12V',...
+                             'Sinus 48V', 'Obdélník 48V', 'Trojúhelník 48V'},...
+                             'Location', 'northwest', 'NumColumns', 2);
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+ylim([0 60]);
+
+% Základní harmonická graf
+figure(2);
+
+hold on;
+grid on;
+box on;
+
+% 12V
+p1 = plot(proud_nastaven, sin_12V(1,:).*sqrt(2), '-o', 'Color', barvy(1,:), 'LineWidth', 2, 'MarkerSize', 8, 'MarkerFaceColor', barvy(1,:));
+p2 = plot(proud_nastaven, sq_12V(1,:), '-s', 'Color', barvy(2,:), 'LineWidth', 2, 'MarkerSize', 8, 'MarkerFaceColor', barvy(2,:));
+p3 = plot(proud_nastaven, tri_12V(1,:).*sqrt(3), '-^', 'Color', barvy(3,:), 'LineWidth', 2, 'MarkerSize', 8, 'MarkerFaceColor', barvy(3,:));
+
+% 48V
+p4 = plot(proud_nastaven, sin_48V(1,:).*sqrt(2), '--o', 'Color', barvy(1,:), 'LineWidth', 2, 'MarkerSize', 8);
+p5 = plot(proud_nastaven, sq_48V(1,:), '--s', 'Color', barvy(2,:), 'LineWidth', 2, 'MarkerSize', 8);
+p6 = plot(proud_nastaven, tri_48V(1,:).*sqrt(3), '--^', 'Color', barvy(3,:), 'LineWidth', 2, 'MarkerSize', 8);
+
+% Ideální charakteristika
+p0 = plot(proud_nastaven, proud_nastaven, ':k', 'LineWidth', 2);
+
+title('Výstupní amplituda v porovnání s nastavenou amplitudou', 'FontSize', 14, 'FontWeight', 'bold');
+xlabel('Nastavený proud [A]', 'FontSize', 11);
+ylabel('Základní harmonická I₁ [A]', 'FontSize', 11);
+legend([p1 p2 p3 p4 p5 p6 p0], {'Sinus 12V', 'Obdélník 12V', 'Trojúhelník 12V',...
+                                'Sinus 48V', 'Obdélník 48V', 'Trojúhelník 48V',...
+                                'Ideální'},...
+                                'Location', 'northwest', 'NumColumns', 2);
+set(gca, 'FontSize', 10, 'GridAlpha', 0.3);
+
+% Uložení obrázku
+saveas(gcf, '/home/pavel/modular-current-source/LaTeX/kapitola5/Figures/Kombinovana_analyza.png');
+saveas(gcf, '/home/pavel/modular-current-source/LaTeX/kapitola5/Figures/Kombinovana_analyza.fig');
+
+disp('Analýza dokončena. Grafy uloženy jako PNG soubory.');

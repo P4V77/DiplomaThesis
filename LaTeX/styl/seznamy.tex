@@ -1,0 +1,236 @@
+% -------------------------
+% --------- Obsah ---------
+% -------------------------
+\cleardoublepage
+\tableofcontents
+
+% ------------------------
+% ---- Seznam zkratek ----
+% ------------------------
+\newpage
+\chapter*{Seznam použitých symbolů a zkratek}
+
+% Přidat odkaz do obsahu
+\addcontentsline{toc}{chapter}{Seznam použitých symbolů a zkratek}
+
+\noindent
+
+\begin{longtable}{@{}l p{10cm} c@{}}
+	\toprule
+	\textbf{Značka}    & \textbf{Popis}                                      & \textbf{Jednotka}                    \\
+	\midrule
+	\endfirsthead
+
+	\toprule
+	\textbf{Značka}    & \textbf{Popis}                                      & \textbf{Jednotka}                    \\
+	\midrule
+	\endhead
+
+	\bottomrule
+	\endfoot
+
+	$\alpha$           & Koeficient EMA filtru                               & --                                   \\
+	ac\_lut            & Tabulka průběhů pro DDS                             & --                                   \\
+	$\beta$            & Koeficient derivačního filtru                       & --                                   \\
+	$\Delta_{URIPPLE}$ & Zvlnění napětí                                      & \SI{}{V}                             \\
+	$\Delta U_{BSTQ}$  & Přípustný pokles bootstrap napětí                   & \SI{}{V}                             \\
+	$\Delta \varphi$   & Fázový přírůstek DDS                                & --                                   \\
+	$\eta$             & Účinnost                                            & \SI{}{\percent}                      \\
+	AC                 & Střídavý proud                                      & \SI{}{\ampere}                       \\
+	ADC                & Analogově-digitální převodník                       & --                                   \\
+	Airflow            & Průtok vzduchu (pro chlazení)                       & --                                   \\
+	ATSAME51J20A       & Mikrokontrolér                                      & --                                   \\
+	BYG10D             & Ochranná dioda                                      & --                                   \\
+	CAD                & Počítačem podporované návrhářství                   & --                                   \\
+	CAN                & Controller Area Network                             & --                                   \\
+	CANopen            & Komunikační protokol založený na CAN                & --                                   \\
+	CCx                & Capture/Compare registr                             & --                                   \\
+	CIP                & Common Industrial Protocol                          & --                                   \\
+	CiA                & CAN in Automation (organizace)                      & --                                   \\
+	C++                & Programovací jazyk používaný pro firmware           & --                                   \\
+	$C_{IN}$           & Kapacita vstupního kondenzátoru                     & \SI{}{F}                             \\
+	$C_{bootstrap}$    & Bootstrap kondenzátor                               & \SI{}{F}                             \\
+	$C_{OUT}$          & Výstupní filtrační kondenzátor                      & \SI{}{F}                             \\
+	CompoNet           & Průmyslová síť                                      & --                                   \\
+	ControlNet         & Průmyslová síť                                      & --                                   \\
+	DC                 & Stejnosměrný proud                                  & \SI{}{\ampere}                       \\
+	DDS                & Přímá digitální syntéza                             & --                                   \\
+	DESSEQ             & Firma zabývající se automatizací a robotizací       & --                                   \\
+	DeviceNet          & Průmyslový komunikační protokol                     & --                                   \\
+	$D_{max}$          & Maximální střída PWM signálu                        & --                                   \\
+	DPS                & Deska plošného spoje                                & --                                   \\
+	DPLL               & Digitální fázový závěs                              & --                                   \\
+	$DC_{OFFSET}$      & Stejnosměrný offset                                 & \SI{}{\ampere}                       \\
+	ECC                & Error Correction Code                               & --                                   \\
+	EMC                & Elektromagnetická kompatibilita                     & --                                   \\
+	EMCY               & Emergency message (CANopen)                         & --                                   \\
+	EMI                & Elektromagnetické rušení                            & --                                   \\
+	EMA                & Exponenciální klouzavý průměr                       & --                                   \\
+	ESD                & Elektrostatický výboj                               & --                                   \\
+	EtherCAT           & Průmyslový ethernetový protokol                     & --                                   \\
+	EtherNet/IP        & Průmyslový ethernetový protokol                     & --                                   \\
+	EVSYS              & Event System v mikrokontroléru ATSAME51             & --                                   \\
+	$f_{CLK}$          & Taktovací frekvence                                 & \SI{}{\hertz}                        \\
+	$f_{CM}$           & Zlomová frekvence Common-mode filtru                & \SI{}{\hertz}                        \\
+	$f_{DM}$           & Zlomová frekvence Differential-mode filtru          & \SI{}{\hertz}                        \\
+	$f_{OUT}$          & Výstupní frekvence                                  & \SI{}{\hertz}                        \\
+	$f_{SW}$           & Spínací frekvence                                   & \SI{}{\hertz}                        \\
+	FIFO               & First In First Out buffer                           & --                                   \\
+	FW ARON            & firmware platformy MoSeZ                            & --                                   \\
+	GCLK               & Generický hodinový generátor                        & --                                   \\
+	GUI                & Graphical User Interface                            & --                                   \\
+	HB                 & Heartbeat zpráva                                    & --                                   \\
+	$h_{LAYER}$        & Výška vrstvy tisku                                  & \SI{}{\milli\meter}                  \\
+	Honeycomb          & Voštinový vzor výplně 3D tisku                      & --                                   \\
+	I/O                & Vstup/výstup                                        & --                                   \\
+	ID                 & Identifikátor zařízení                              & --                                   \\
+	IEEE 802.3         & Ethernet standard                                   & --                                   \\
+	$I_1$              & Základní harmonická složka                          & \SI{}{\ampere} nebo \SI{}{\deci\bel} \\
+	$I_{DDQ}$          & Klidový proud high-side budiče                      & \SI{}{\ampere}                       \\
+	$I_{BSTQ}$         & Klidový proud bootstrap obvodu                      & \SI{}{\ampere}                       \\
+	$I_{EF}$           & Efektivní hodnota proudu                            & \SI{}{\ampere}                       \\
+	INA241B1           & Verze senzoru proudu INA241                         & --                                   \\
+	Infill             & Procento výplně modelu                              & \SI{}{\percent}                      \\
+	ISC080N10          & MOSFET tranzistor                                   & --                                   \\
+	ISO/OSI            & Referenční model pro síťovou komunikaci             & --                                   \\
+	$I_{SET}$          & Nastavený proud                                     & \SI{}{\ampere}                       \\
+	$I_{LOAD}$         & Proud zátěže                                        & \SI{}{\ampere}                       \\
+	$I_{OUT}$          & Výstupní proud                                      & \SI{}{\ampere}                       \\
+	$I_{RIPPLE}$       & Zvlnění proudu                                      & \SI{}{\ampere}                       \\
+	$I_{RMS}$          & Efektivní hodnota proudu                            & \SI{}{\ampere}                       \\
+	IRT                & Isochronous Real Time (PROFINET)                    & --                                   \\
+	K                  & Koeficient zvlnění proudu                           & --                                   \\
+	L                  & Indukčnost výstupního filtru                        & \SI{}{\henry}                        \\
+	LMR38010           & Synchronní snižující měnič                          & --                                   \\
+	LM78M33            & Lineární stabilizátor napětí                        & --                                   \\
+	$L_{LOAD}$         & Indukčnost zátěže                                   & \SI{}{\henry}                        \\
+	LUT                & Look-Up Table                                       & --                                   \\
+	MAC ID             & Media Access Control Identifier                     & --                                   \\
+	MCU                & Mikrokontrolér                                      & --                                   \\
+	MCP1501T           & Přesná napěťová reference                           & --                                   \\
+	MoSeZ              & Platforma modulárních spínaných zdrojů              & --                                   \\
+	MP1917             & Budič MOSFET tranzistorů                            & --                                   \\
+	MP2344             & Snižující měnič (původní verze)                     & --                                   \\
+	NMT                & Network Management (CANopen)                        & --                                   \\
+	NRF                & Non-Recoverable Fault                               & --                                   \\
+	NVMCTRL            & Řadič nonvolatilní paměti                           & --                                   \\
+	OD                 & Object Dictionary (CANopen)                         & --                                   \\
+	Onshape            & Online CAD software                                 & --                                   \\
+	OpenPnP            & Open-source osazovací automat                       & --                                   \\
+	OTMX               & Output Matrix                                       & --                                   \\
+	$P_{D\_MAX}$       & Maximální ztrátový výkon                            & \SI{}{\watt}                         \\
+	PETG               & Polyethylentereftalát glykol                        & --                                   \\
+	PHASE\_ACCUM       & Fázový akumulátor DDS                               & --                                   \\
+	PHASE\_INC         & Fázový přírůstek DDS                                & --                                   \\
+	PID                & Proporcionálně-integračně-derivační regulátor       & --                                   \\
+	$P_G$              & Ztráty hradlem MOSFET tranzistoru                   & \SI{}{\watt}                         \\
+	$P_{DO}$           & Process Data Object (CANopen)                       & --                                   \\
+	$P_{IN}$           & Vstupní výkon                                       & \SI{}{\watt}                         \\
+	$P_J$              & Vodivostní ztráty MOSFET tranzistoru                & \SI{}{\watt}                         \\
+	$P_{LOSS}$         & Celkové ztráty na MOSFET tranzistoru                & \SI{}{\watt}                         \\
+	$P_{OUT}$          & Výstupní výkon                                      & \SI{}{\watt}                         \\
+	$P_{SW}$           & Spínací ztráty MOSFET tranzistoru                   & \SI{}{\watt}                         \\
+	PROFIBUS           & Průmyslová sběrnice                                 & --                                   \\
+	PROFINET           & Průmyslový komunikační protokol                     & --                                   \\
+	Prusa Mk4          & Model 3D tiskárny                                   & --                                   \\
+	PTC                & Positive Temperature Coefficient                    & --                                   \\
+	PTH                & Technologie průchozí montáže                        & --                                   \\
+	PWM                & Pulsně šířková modulace                             & --                                   \\
+	$Q_G$              & Celkový náboj hradla                                & \SI{}{\coulomb}                      \\
+	$Q_{total}$        & Celkový náboj pro bootstrap                         & \SI{}{\coulomb}                      \\
+	RAM                & Random Access Memory                                & --                                   \\
+	Reflow             & Pájecí proces SMT součástek                         & --                                   \\
+	$R_{CM}$           & Odpor common-mode filtru                            & \SI{}{\ohm}                          \\
+	$R_{DM}$           & Odpor differential-mode filtru                      & \SI{}{\ohm}                          \\
+	$R_{DS\_ON}$       & Odpor kanálu MOSFET tranzistoru                     & \SI{}{\ohm}                          \\
+	$R_{FBT}$          & Horní zpětnovazební odpor                           & \SI{}{\ohm}                          \\
+	$R_{FBB}$          & Dolní zpětnovazební odpor                           & \SI{}{\ohm}                          \\
+	$R_{LOAD}$         & Odpor zátěže                                        & \SI{}{\ohm}                          \\
+	RMS                & Efektivní hodnota                                   & --                                   \\
+	$R_{SENSE}$        & Snímací odpor pro měření proudu                     & \SI{}{\ohm}                          \\
+	$R_{T}$            & Terminační odpor pro nastavení spínacího kmitočtu   & \SI{}{\ohm}                          \\
+	RT                 & Real Time (PROFINET)                                & --                                   \\
+	$R_{THJA}$         & Tepelný odpor tranzistor-okolí                      & \SI{}{\kelvin\per\watt}              \\
+	SERCOM             & Sériová komunikační periferie                       & --                                   \\
+	SDO                & Service Data Object (CANopen)                       & --                                   \\
+	SIN                & Harmonický (sinusový) průběh                        & --                                   \\
+	SMD                & Surface-mount device                                & --                                   \\
+	SMT                & Technologie povrchové montáže                       & --                                   \\
+	SP/SH/SW           & Sekvenční příkazy                                   & --                                   \\
+	SQUARE             & Obdélníkový průběh                                  & --                                   \\
+	Staff 2.0          & Řídicí aplikace pro MoSeZ                           & --                                   \\
+	ST/SC/SF           & Příkazy pro řízení sekvencí                         & --                                   \\
+	SYNC               & Synchronizační zpráva                               & --                                   \\
+	$T_{BED}$          & Teplota podložky tisku                              & \SI{}{\celsius}                      \\
+	$T_J$              & Teplota přechodu tranzistoru                        & \SI{}{\celsius}                      \\
+	$T_{J\_MAX}$       & Maximální teplota přechodu                          & \SI{}{\celsius}                      \\
+	$T_{PRINT}$        & Teplota tisku                                       & \SI{}{\celsius}                      \\
+	TCAN334G           & CAN transceiver                                     & --                                   \\
+	TCx                & Časovač/čítač                                       & --                                   \\
+	TCCx               & Časovač pro PWM                                     & --                                   \\
+	TCP/IP             & Transmission Control Protocol/Internet Protocol     & --                                   \\
+	Temp               & Teplota                                             & \SI{}{\celsius}                      \\
+	THD                & Celkové harmonické zkreslení                        & \SI{}{\percent}                      \\
+	THT                & Through-hole technology                             & --                                   \\
+	TRIANGLE           & Trojúhelníkový průběh                               & --                                   \\
+	TVS                & Transient Voltage Suppressor dioda                  & --                                   \\
+	$U_{ADC}$          & Naměřené napětí z ADC                               & \SI{}{\volt}                         \\
+	$U_{BSC}$          & Napětí na bootstrap kondenzátoru                    & \SI{}{\volt}                         \\
+	$U_{D}$            & Úbytek napětí na diodě                              & \SI{}{\volt}                         \\
+	$U_{DH}$           & Úbytek napětí na bootstrap diodě                    & \SI{}{\volt}                         \\
+	UDP                & User Datagram Protocol                              & --                                   \\
+	$U_{GS}$           & Napětí hradlo-source tranzistoru                    & \SI{}{\volt}                         \\
+	$U_{HT}$           & Hystereze podpěťové ochrany budiče                  & \SI{}{\volt}                         \\
+	$U_{IN}$           & Vstupní napětí                                      & \SI{}{\volt}                         \\
+	$U_{LS}$           & Napětí na low-side tranzistoru                      & \SI{}{\volt}                         \\
+	$U_{MAX}$          & Maximální napětí v LUT                              & \SI{}{\volt}                         \\
+	$U_{MIN}$          & Minimální napětí v LUT                              & \SI{}{\volt}                         \\
+	$U_{OUT}$          & Výstupní napětí                                     & \SI{}{\volt}                         \\
+	$U_{REF}$          & Referenční napětí                                   & \SI{}{\volt}                         \\
+	$U_T$              & Prahové napětí MOSFET tranzistoru                   & \SI{}{\volt}                         \\
+	$U_{UPFT}$         & Prahová hodnota podpěťové ochrany budiče            & \SI{}{\volt}                         \\
+	$U_{UPRT}$         & Prahová hodnota podpěťové ochrany při náběhu napětí & \SI{}{\volt}                         \\
+	UART               & Univerzální asynchronní přijímač/vysílač            & --                                   \\
+	USB-CAN            & Převodník USB na CAN                                & --                                   \\
+	USB-UART           & Převodník USB na UART                               & --                                   \\
+	USERROW            & Uživatelská řádka v paměti                          & --                                   \\
+	$V_{PRINT}$        & Rychlost tisku                                      & \SI{}{\milli\meter\per\second}       \\
+	Voicecoil          & Lineární elektromagnetický aktuátor                 & --                                   \\
+	WDT                & Watchdog Timer                                      & --                                   \\
+	X7R                & Typ keramického dielektrika                         & --                                   \\
+\end{longtable}
+
+% ------------------------
+% ---- Seznam TODO ----
+% ------------------------
+% Pokud byste si chtěli zobrazit všechny TODO na jednom místě
+%\newpage
+%\listoftodos
+
+
+% ------------------------
+% ---- Seznam obrázků ----
+% ------------------------
+\newpage
+\listoffigures
+
+% ------------------------
+% ---- Seznam tabulek ----
+% ------------------------
+\newpage
+\listoftables
+
+
+% -------------------------
+% ----- Seznam rovnic -----
+% -------------------------
+%\newpage
+%\newcommand{\listequationsname}{List of Equations}
+%\newlistof{myequations}{equ}{\listequationsname}
+%\newcommand{\myequations}[1]{%
+%\addcontentsline{equ}{myequations}{\protect\numberline{\theequation}#1}\par}
+%\setlength{\cftmyequationsnumwidth}{2.5em}% Width of equation number in List of Equations
+
+
+
+

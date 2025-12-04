@@ -1,0 +1,42 @@
+\documentclass[11pt,a4paper]{report}
+
+\input{styl/styl.tex}
+
+\begin{document}
+
+\input{styl/titulni.tex}
+
+% V případě závěrečného projektu:
+\input{styl/zadani.tex}
+% V případě DP:
+\includepdf[pages={1}]{styl/zadani.pdf}
+
+\pagestyle{plain}	% Odsud se budou aplikovat pravidla typu záhlaví, apod.
+
+\input{styl/abstrakt_podekovani.tex}
+
+% \input{prohlaseni/prohlaseni.tex}
+
+% Obsah, seznam obrázků, apod.
+\input{styl/seznamy.tex}
+
+\newpage
+\pagenumbering{arabic}	% Změna stylu číslování stran.
+
+\input{uvod/uvod.tex}
+\input{kapitola1/can_open.tex}
+\input{kapitola2/modifications/modifications.tex}
+\input{kapitola3/3d_models.tex}
+\input{kapitola4/fw.tex}
+\input{kapitola5/mereni.tex}
+\input{kapitola6/vibrator.tex}
+
+\input{kapitola7/staff_2.0.tex}
+
+\input{zaver/zaver.tex}
+
+\input{styl/literatura.tex}
+\input{prilohy/prilohy.tex}
+
+\end{document}
+

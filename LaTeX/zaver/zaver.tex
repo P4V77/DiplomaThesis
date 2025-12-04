@@ -1,0 +1,27 @@
+\chapter{Závěr}
+
+Tato diplomová práce se zaměřila na návrh, vývoj a testování rozšířené verze modulární platformy \emph{MoSeZ} určené pro řízení elektromagnetických aktuátorů.
+Byly navrženy nové hardwarové moduly jednokanálového proudového zdroje s cílem zvýšit výkon, spolehlivost a flexibilitu systému.
+Zvláštní důraz byl kladen na konstrukci výstupních proudových obvodů, implementaci bezpečnostních funkcí,
+podporu střídavých proudů prostřednictvím \textit{DDS} a rozšíření možností řízení pomocí \textit{PID} regulace.
+
+Platforma \textit{MoSeZ} nadále zachovává svou modulárnost -- jednotlivé jednokanálové moduly lze propojit pomocí sběrnice \textit{CAN} tak,
+že se z pohledu uživatele chovají jako vícekanálový proudový zdroj.
+Tato vlastnost umožňuje snadnou integraci platformy do větších řídicích systémů.
+
+Těchto vlastností bylo využito při aplikaci ve vibračním podavači firmy \emph{DESSEQ},
+kde čtyři moduly \emph{MoSeZ} řízené přes převodník \textit{USB-CAN} napájejí čtyři \textit{voicecoily}.
+Pro zajištění bezpečného pohybu jádra bylo implementováno měření polohy pomocí Hallova senzoru,
+které umožňuje přímo řídit polohu jádra a tím zabraňuje nárazu jádra do mechanických dorazů.
+
+Dále byla vyvinuta nová desktopová aplikace \textit{Staff 2.0}, 
+která poskytuje přehledné grafické rozhraní pro konfiguraci proudových výstupů, 
+a ladění systému v reálném čase.
+Aplikace automaticky detekuje zařízení dostupná na sběrnici podle jejich identifikátorů
+a podporuje komunikaci přes převodníky \textit{USB-UART} i \textit{USB-CAN}.
+
+Funkčnost navrženého systému byla ověřena sérií měření zaměřených na výstupní proudy, harmonické zkreslení, účinnost a přesnost regulace.
+Výsledky potvrdily, že zařízení splňuje požadavky na přesné řízení proudových výstupů pro elektromagnetické aktuátory.
+
+Do budoucna lze zvážit implementaci pokročilejších regulačních algoritmů
+či návrh nové generace \textit{DPS} optimalizované s ohledem na elektromagnetickou kompatibilitu a platné \textit{EMC} normy.

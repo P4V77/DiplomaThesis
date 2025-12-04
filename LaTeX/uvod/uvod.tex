@@ -1,0 +1,27 @@
+\chapter*{Úvod}
+\addcontentsline{toc}{chapter}{Úvod} % Přidá úvod do obsahu
+
+S rostoucími nároky na přesnost, spolehlivost a škálovatelnost řízení elektromagnetických aktuátorů se zvyšuje potřeba vysoce flexibilních a
+snadno rozšiřitelných řídicích platforem.
+Tyto požadavky se objevují napříč obory -- od průmyslové automatizace až po vývoj pokročilých mechatronických systémů.
+Modulární platforma \textit{MoSeZ} představuje řešení pro řízení proudových výstupů,
+které umožňuje efektivní správu aktuátorů s využitím průmyslové sběrnice \textit{CAN}.
+
+Původní verze zařízení \textit{MoSeZ Rev. A} byla navržena pro napájení \SI{12}{\volt} a umožňovala pouze stejnosměrný výstup. 
+Vzhledem k požadavku vyššího napájecího rozsahu, podpory střídavých signálů a 
+možnosti zpětné vazby z řízeného systému však bylo nutné připravit rozšířenou variantu platformy.
+
+Tato práce se proto zaměřuje na návrh hardwarového a softwarového rozšíření platformy \textit{MoSeZ} tak, 
+aby podporovala napájecí napětí v rozsahu od \SI{12}{\volt} do \SI{48}{\volt},
+umožňovala generovat střídavý proud prostřednictvím přímé digitální syntézy (\textit{DDS}) a
+byla připravena pro zavedení zpětné vazby z řízených aktuátorů – například informace o stavu ventilu (otevřený/zavřený) nebo poloze jádra.
+Klíčovým požadavkem také bylo zachování modulární architektury,
+která umožňuje sestavení vícekanálového systému z jednotlivých jednokanálových modulů.
+
+Součástí práce je návrh a vývoj nezbytných podpůrných komponent:
+desky plošných spojů, firmwaru, vlastního komunikačního protokolu založeného na sběrnici \textit{CAN},
+nasazení modulů do experimentálního zařízení a následného zkoušení a testování celého systému.
+
+Cílem práce je vytvořit robustní,
+modulární a konfigurovatelný řídicí systém pro elektromagnetické aktuátory,
+který bude připraven pro snadnou integraci do rozsáhlejších experimentálních sestav.

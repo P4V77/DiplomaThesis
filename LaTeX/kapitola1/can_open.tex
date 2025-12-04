@@ -1,0 +1,337 @@
+\newpage
+
+\chapter{Komunikační protokoly založené na sběrnici \textit{\textit{CAN} }}
+
+Sběrnice \textit{CAN} (Controller Area Network) byla původně vyvinuta společností Bosch pro automobilový průmysl jako řešení rostoucí složitosti kabelových rozvodů.
+Její robustní návrh a efektivita vedly k širokému nasazení i v dalších oblastech průmyslové automatizace.
+Mezi klíčové vlastnosti této sběrnice patří:
+
+\begin{itemize}
+	\item \textbf{Robustní fyzická vrstva:}  Je navržen pro spolehlivý provoz v náročných průmyslových prostředích.
+	\item \textbf{Nízká režie:} Protokol  má relativně nízkou režii, což znamená efektivní využití přenosového média.
+	\item \textbf{Jednoduché rozhraní:} Implementace  nevyžaduje rozsáhlé hardwarové prostředky,
+	      často postačuje i méně výkonný 8-bitový mikroprocesor s malou pamětí (řádově \SI{4}{\kilo\byte} programové paměti a \SI{256}{\byte} \textit{RAM}).
+	\item \textbf{Bitová arbitráž:}  Využívá nedestruktivní bitovou arbitráž pro řízení přístupu k síti.
+	      Pokud více uzlů započne vysílání současně, arbitrážní mechanismus zajistí,
+	      že zpráva s vyšší prioritou (definovanou identifikátorem) získá přístup k sběrnici bez ztráty dat.
+	      Vítězný uzel pokračuje ve vysílání, zatímco ostatní uzly, které prohrály arbitráž, se stáhnou a čekají na uvolnění sběrnice.
+	      Uzel může započít vysílání jen pokud je sběrnice uvolněna.
+	      Pokud začne uzel s vyšším \textit{ID} (nižší prioritou) úspěšně vysílat,
+	      musí všechny ostatní uzly čekat na uvolnění sběrnice,
+	      bez ohledu na jejich \textit{ID} (prioritu).
+	\item \textbf{Datové a vzdálené rámce:}  Definuje formáty zpráv,
+	      jako je datový rámec (pro přenos dat) a vzdálený rámec (pro vyžádání dat).
+	\item \textbf{Řízení chyb:}  Zahrnuje mechanismy pro detekci a signalizaci chyb při přenosu dat.
+\end{itemize}
+
+Původní specifikace \textit{CAN} (verze 1.2) používala \SI{11}{\bit} identifikátor,
+umožňující adresovat až 2047 různých zařízení nebo zpráv.
+Pozdější specifikace \textit{CAN} 2.0 rozšířila velikost identifikátoru na \SI{29}{\bit},
+což zvýšilo počet unikátních možností adresace na více než $\approx$ 536 milionů.
+Většina bitů identifikátoru slouží k logickému rozdělení zpráv do skupin, což je výhodné v komunikačních protokolech založených na \textit{CAN},
+jako je \textit{CANopen} \cite{canopen_spec}.
+
+\section{\textit{CANopen}}
+
+\textit{CANopen} je nadstavbový komunikační protokol založený na sběrnici \textit{CAN} (\textit{Controller Area Network}).
+Byl vyvinut organizací \textit{CiA} (\textit{CAN in Automation}) pro potřeby průmyslové automatizace, ale našel uplatnění i v dalších odvětvích,
+jako jsou zdravotnická technika, dopravní systémy, robotika a řízení strojů.
+Díky své otevřené architektuře, modularitě a široké podpoře je \textit{CANopen} vhodný pro aplikace,
+které vyžadují spolehlivou a efektivní komunikaci mezi decentralizovanými inteligentními zařízeními.
+
+\subsection{Fyzická vrstva a topologie}
+\textit{CANopen} využívá fyzickou vrstvu standardu \textit{CAN}, což zahrnuje specifikaci kabeláže, zakončení a topologie sítě.
+
+\textbf{Klíčové parametry fyzické vrstvy:}
+\begin{itemize}
+	\item Používá dvoudrátovou kroucenou dvojlinku (diferenciální přenos).
+	\item Podporuje různé rychlosti (od \SI{10}{\text{kbps}} do \SI{1}{\text{Mbps}}).
+	\item Sběrnicová topologie s možností odboček (stub lines).
+	\item Terminace sběrnice pomocí 120$\Omega$ odporů na koncích vedení.
+\end{itemize}
+
+\begin{table}[H]
+	\centering
+	\caption{Maximální délka sběrnice v závislosti na přenosové rychlosti}
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Rychlost(\SI{}{\text{kbps}})} & \textbf{Max. délka vedení (m)} \\
+		\hline
+		1000                                  & 40                             \\
+		500                                   & 100                            \\
+		250                                   & 250                            \\
+		125                                   & 500                            \\
+		50                                    & 1000                           \\
+		20                                    & 2500                           \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\subsection{Komunikační protokoly v \textit{CANopen}}
+
+\textbf{PDO – Process Data Object}
+Umožňuje přenos procesních dat mezi zařízeními bez potvrzení, což zajišťuje minimální latenci. Data mohou být synchronní nebo asynchronní.
+
+\textbf{Vlastnosti PDO:}
+\begin{itemize}
+	\item Maximální velikost dat je \SI{8}{\byte}.
+	\item Lze konfigurovat mapování dat.
+	\item Přenos může být vyvolán změnou hodnoty nebo synchronizační zprávou (SYNC).
+\end{itemize}
+
+\textbf{SDO – Service Data Object}
+Umožňuje čtení a zápis dat do objektového slovníku zařízení. Používá se pro konfiguraci a diagnostiku.
+
+\textbf{Princip SDO:}
+\begin{itemize}
+	\item Každý \textit{SDO} rámec má identifikátor klient-server.
+	\item Používá \SI{16}{\bit} index a \SI{8}{\bit} subindex pro adresaci dat.
+	\item Podporuje segmentovaný přenos větších datových bloků.
+\end{itemize}
+
+\textbf{Další komunikační objekty}
+\begin{itemize}
+	\item \textbf{NMT (Network Management)} – Řízení stavu zařízení v síti.
+	\item \textbf{SYNC} – Synchronizace komunikace mezi uzly.
+	\item \textbf{EMCY (Emergency)} – Rychlé hlášení poruch.
+	\item \textbf{Heartbeat / Node Guarding} – Monitorování dostupnosti zařízení.
+\end{itemize}
+
+\section{Objektový slovník}
+Každé zařízení v \textit{CANopen} obsahuje objektový slovník (\textit{Object Dictionary, OD}), který obsahuje konfiguraci a data.
+
+\begin{table}[H]
+	\centering
+	\caption{Ukázka objektového slovníku \textit{CANopen}}
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\textbf{Index} & \textbf{Název}        & \textbf{Popis funkce}     \\
+		\hline
+		0x1000         & Device Type           & Typ zařízení              \\
+		0x1018         & Identity Object       & ID výrobce, verze SW      \\
+		0x6040         & Control Word          & Např. Ovládání motoru     \\
+		0x6064         & Position Actual Value & Např. Aktuální poloha osy \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\subsection{Diagnostika a bezpečnost}
+\textit{CANopen} obsahuje pokročilé mechanismy pro diagnostiku a detekci chyb:
+
+\textbf{Hlavní diagnostické funkce:}
+\begin{itemize}
+	\item \textbf{Heartbeat a Node Guarding} – Monitorování aktivních uzlů.
+	\item \textbf{EMCY zprávy} – Hlášení chybových stavů.
+	\item \textbf{Time-out mechanizmy} – Detekce neodpovídajících zařízení.
+\end{itemize}
+
+\begin{table}[H]
+	\centering
+	\caption{Ukázka chybových kódů EMCY v \textit{CANopen}}
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Kód chyby} & \textbf{Popis chyby} \\
+		\hline
+		0x8110             & Přepětí na motoru    \\
+		0x8120             & Nedostatek napájení  \\
+		0x8130             & Přehřátí pohonu      \\
+		\hline
+	\end{tabular}
+\end{table}
+
+\subsection{Aplikace protokolu \textit{CANopen}}
+\textit{CANopen} je široce využíván v různých průmyslových odvětvích:
+
+\begin{itemize}
+	\item \textbf{Automatizace strojů} – Řízení motorů, snímačů a akčních členů.
+	\item \textbf{Automobilový průmysl} – Ovládání vestavěných systémů a komunikace mezi moduly.
+	\item \textbf{Zdravotnická technika} – Řízení laboratorních přístrojů, dávkovacích systémů.
+	\item \textbf{Robotika} – Koordinace pohybu víceosých systémů.
+\end{itemize}
+
+\textit{DeviceNet} staví na základech protokolu \textit{CAN},
+sériové komunikační normy určené pro inteligentní zařízení.
+
+\section{\textit{DeviceNet}}
+
+Je průmyslový komunikační protokol vytvořený společností Allen-Bradley,
+který si od svého vzniku v polovině 90. let 20. století získal důležité postavení v oblasti automatizace.
+Jeho popularita spočívá v možnosti spolehlivě propojovat různá průmyslová zařízení obdobně jako u \textit{CANopen}.
+Je součástí rodiny sítí,
+které na svých vyšších vrstvách implementují \textit{Common Industrial Protocol} (\textit{CIP}),
+standardizovaný protokol pro průmyslovou automatizaci.
+
+Kromě \textit{DeviceNet} do této rodiny \textit{CIP} protokolů patří i další významné technologie, jako například:
+
+\begin{itemize}
+	\item \textbf{\textit{\textit{EtherNet/IP} }}: Průmyslový ethernetový protokol, který rozšiřuje \textit{CIP} na standardní ethernetovou infrastrukturu.
+	      Je široce používán pro aplikace vyžadující vysokou rychlost a velkou šířku pásma.
+	\item \textbf{\textit{ControlNet}}: Síť s deterministickým přístupem k médiu,
+	      určená pro aplikace vyžadující vysokou spolehlivost a synchronizaci v reálném čase, typicky pro řízení a \textit{I/O} data.
+	\item \textbf{\textit{CompoNet}}: Nízkonákladová průmyslová síť určená pro propojení jednoduchých zařízení,
+	      jako jsou senzory a akční členy.
+\end{itemize}
+
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{kapitola1/figures/Iso_OSI.png}
+	\caption[Referenční model \textit{ISO/OSI}]{Referenční model \textit{ISO/OSI}. Zdroj: \cite{osi_model_wiki}}
+	\label{fig::isoosi}
+\end{figure}
+
+
+Všechny tyto sítě sdílejí společný \textit{CIP} na svých aplikačních vrstvách,
+což umožňuje jednotný přístup k datům a konfiguraci zařízení napříč různými typy sítí.
+Z hlediska referenčního modelu \textit{ISO/OSI}, viz \oref{fig::isoosi}, definuje \textit{DeviceNet} síťovou, transportní vrstvu, linkovou a fyzickou vrstvu,
+ve kterých sběrnice \textit{CAN} zajišťuje dvě nejnižší vrstvy – fyzickou a linkovou \cite{devicenet_spec}.
+Zprávy obsahují specifické informace uspořádané do definovaných polí, jako je číslo třídy objektu a kód služby.
+
+\subsection{\textit{CIP} (\textit{Common Industrial Protocol})}
+
+Je komplexní komunikační protokol umožňující výměnu automatizačních dat mezi zařízeními,
+kde každé zařízení je reprezentováno jako sada objektů.
+
+\textbf{Typy objektů v \textit{CIP}:}
+\begin{itemize}
+	\item \textbf{Požadované objekty (Required Objects)} – Identity Object, Message Router Object, Network Object, Connection Object.
+	\item \textbf{Aplikační objekty (Application Objects)} – specifické pro funkci daného zařízení (např. motor, analogový vstup).
+	\item \textbf{Objekty sestavení (Assembly Objects)} – sdružují atributy z různých aplikačních objektů.
+	\item \textbf{Objekty specifické pro výrobce (Vendor Specific Objects)} – pro dodatečné funkce zařízení.
+\end{itemize}
+
+\subsection{Komunikační protokoly v \textit{CIP}:}
+\begin{itemize}
+	\item \textbf{Explicitní zprávy} - Požadavek/odpověď, např. pro konfiguraci zařízení.
+	\item \textbf{\textit{I/O} zprávy} - Přenos výstupů a vstupů mezi master a slave.
+	      \begin{itemize}
+		      \item \textbf{Dotazování (Polled)} - Master se pravidelně ptá slave.
+		      \item \textbf{Cyklické zprávy} - Slave pravidelně vysílá data.
+		      \item \textbf{Při změně stavu (Change-of-State)} - Data se přenášejí pouze při změně nebo v intervalech.
+	      \end{itemize}
+\end{itemize}
+
+\subsection{Architektura sítě \textit{DeviceNet}}
+
+\textit{DeviceNet} využívá sběrnicovou topologii s hlavním vedením (trunk line) a odbočkami (drop line).
+Maximální počet uzlů je 64, s adresami 0-63.
+Podporované rychlosti jsou \SI{125}{\text{kbps}},  \SI{250}{\text{kbps}} a  \SI{500}{\text{kbps}},
+přičemž rychlost ovlivňuje maximální délku vedení.
+Terminace probíhá pomocí  \SI{125}{\ohm} odporů na koncích trunk line.
+Konfigurace zařízení probíhá softwarově nebo pomocí specializovaných hardware nástrojů.
+Při zapnutí nového uzlu v síti probíhá automatická detekce duplicitních adres, což zabraňuje konfliktům.
+
+
+\section{\textit{Ethernet} v průmyslových aplikacých}
+
+V dnešní době se stále více používají \textit{Ethernetové} technologie v průmyslových aplikacích,
+a proto uznávám za vhodné uvést i protokoly založené na \textit{Ethernetu} a
+následně je porovnat s protokoly založenými na sběrnici \textit{CAN}.
+Mezi nejpoužívanější protokoly patří \textbf{\textit{EtherNet/IP} }, \textbf{\textit{PROFINET} } a \textbf{\textit{EtherCAT} }.
+Každý z nich má své specifické vlastnosti, které je činí vhodnými pro různé aplikace.
+
+\subsection{\textit{EtherNet/IP} }
+\textit{EtherNet/IP} je průmyslový síťový protokol využívající standardní protokol \textit{Common Industrial Protocol (CIP)}.
+Tento protokol umožňuje komunikaci mezi řídicími systémy a (\textit{I/O}) zařízeními.
+
+\textbf{Hlavní vlastnosti:}
+\begin{itemize}
+	\item Pracuje na aplikační vrstvě \textit{OSI}.
+	\item Používá standardní síťovou infrastrukturu Ethernet (\textit{IEEE 802.3}).
+	\item Podporuje komunikaci producent-konzument (\textit{producer-consumer}).
+	\item Používá standardní \textit{Ethernetové} přepínače a směrovače.
+	\item Využívá protokoly \textit{TCP/IP} pro explicitní zasílání zpráv a \textit{UDP} pro rychlou výměnu dat.
+\end{itemize}
+
+\subsection{\textit{PROFINET} }
+\textit{\textit{PROFINET} } je průmyslový komunikační protokol vyvinutý z \textit{PROFIBUSu}.
+Protokol je standardizován a rozšiřuje možnosti deterministické komunikace v reálném čase pomocí technologií jako \textit{RT} a \textit{IRT} \cite{profinet_basics}.
+
+\textbf{Hlavní vlastnosti:}
+\begin{itemize}
+	\item Podporuje deterministickou komunikaci (v režimu 	\textit{IRT} – Isochronous Real Time).
+	\item Pracuje na fyzické vrstvě \textit{Ethernetu} podle \textit{IEEE 802.3} .
+	\item Používá různé třídy komunikace.
+	\item Podporuje synchronizaci s přesností pod \SI{1}{\micro\second}.
+	\item Vyžaduje specifický hardware pro nejrychlejší režimy komunikace.
+\end{itemize}
+
+\subsection{\textit{EtherCAT} }
+\textit{EtherCAT (Ethernet for Control Automation Technology)} je vysoce výkonný průmyslový protokol navržený pro rychlou a deterministickou komunikaci.
+EtherCAT vyniká minimální latencí a možností synchronizace pomocí distribuovaných hodin \cite{ethercat_intro}.
+
+\textbf{Hlavní vlastnosti:}
+\begin{itemize}
+	\item Umožňuje komunikaci v reálném čase s minimální latencí.
+	\item Používá princip průchozího zpracování dat (telegramy se zpracovávají během průchodu uzly).
+	\item Podporuje synchronizaci zařízení pomocí distribuovaných hodin.
+	\item Může pracovat s kruhovou, hvězdicovou a stromovou topologií.
+	\item Dosahuje cyklických časů pod 100 µs.
+\end{itemize}
+
+\section{Porovnání \textit{EtherNet/IP}, \textit{PROFINET} a \textit{EtherCAT} }
+
+Tabulkové porovnání vybraných protokolů vychází z jejich oficiálních specifikací a dokumentací \cite{canopen_spec, devicenet_spec, profinet_basics, ethercat_intro}.
+
+\begin{table}[H]
+	\centering
+	\caption{Porovnání průmyslových Ethernetových protokolů}
+	\begin{tabular}{|l|c|c|c|}
+		\hline
+		\textbf{Parametr} & \textbf{EtherNet/IP} & \textbf{PROFINET} & \textbf{EtherCAT} \\
+		\hline
+		Komunikační model & Producer-Consumer    & Master-Slave      & Master-Slave      \\
+		\hline
+		Protokol          & TCP/IP, UDP/IP       & Ethernet Frame    & Ethernet Frame    \\
+		\hline
+		Determinismus     & Částečný             & Ano (IRT)         & Ano               \\
+		\hline
+		Rychlost          & 10/100/1000 Mbps     & 100/1000 Mbps     & 100 Mbps          \\
+		\hline
+		Topologie         & Hvězda               & Hvězda, kruh      & Linie, kruh       \\
+		\hline
+		Synchronizace     & IEEE 1588            & IEEE 1588         & DC Sync           \\
+		\hline
+		Latence           & 5-10 ms              & <1 ms             & <100 µs           \\
+		\hline
+	\end{tabular}
+	\label{tab:protocol_comparison}
+\end{table}
+
+\section{Ethernet vs. \textit{CAN}}
+
+Průmyslové Ethernetové protokoly (\textit{EtherNet/IP}, \textit{PROFINET}, \textit{EtherCAT}) nabízejí vyšší přenosové rychlosti,
+flexibilnější síťovou topologii a možnost rozsáhlé konfigurace zařízení.
+Na druhé straně si sítě založené na sběrnici \textit{CAN} a jejich nadstavby, jako \textit{CANopen},
+stále udržují pevné postavení v aplikacích, kde jsou klíčové požadavky na odolnost vůči rušení, predikovatelné chování při zatížení a nízkou spotřebu energie.
+
+Zatímco Ethernetové sítě vyžadují výkonnější hardware (např. síťové stacky, větší paměť, větší výpočetní výkon),
+systémy postavené na \textit{CAN} lze provozovat i na nízkopříkonových 8bitových mikrořadičích.
+To výrazně snižuje jejich energetickou náročnost, což je výhodné v bateriových systémech, distribuovaných senzorech nebo automobilových jednotkách.
+
+\textbf{Hlavní rozdíly mezi \textit{Ethernetem} a \textit{CAN}:}
+
+\begin{table}[H]
+	\centering
+	\caption{Srovnání vybraných vlastností protokolů založených na \textit{Ethernetu} a sběrnici \textit{CAN}}
+	\begin{tabular}{|p{3.5cm}|p{5.25cm}|p{5.25cm}|}
+		\hline
+		\textbf{Parametr}             & \textbf{Ethernetové protokoly}                              & \textbf{\textit{CAN} a nadstavby}                                          \\
+		\hline
+		\textbf{Rychlost}             & Až 1~Gbit/s (\textit{PROFINET}, \textit{EtherNet/IP})       & Max. 1~Mbit/s (\textit{CAN 2.0}), až 5–8~Mbit/s (\textit{CAN FD})          \\
+		\hline
+		\textbf{Determinismus}        & Vysoký při použití \textit{IRT}, \textit{EtherCAT}, TSN     & Bitová arbitráž s predikovatelným chováním, vhodné pro malé sítě           \\
+		\hline
+		\textbf{Topologie}            & Hvězda, kruh, strom                                         & Sběrnicová (bus)                                                           \\
+		\hline
+		\textbf{Synchronizace}        & Možná (Distributed Clocks, IEEE~1588/PTP)                   & Není integrovaná, nutno implementovat softwarově                           \\
+		\hline
+		\textbf{Spotřeba energie}     & Vyšší                                                       & Nízká                                                                      \\
+		\hline
+		\textbf{Odolnost vůči rušení} & Závisí na kvalitě stínění a zařízení                        & Vysoká – robustní fyzická vrstva s diferenciálním přenosem                 \\
+		\hline
+		\textbf{Nasazení}             & Vysokorychlostní komunikace, robotika, synchronizace pohybů & Automobilový průmysl, decentralizované řídicí systémy, snímače a aktuátory \\
+		\hline
+	\end{tabular}
+	\label{tab:ethernet_vs_can}
+\end{table}

@@ -1,0 +1,95 @@
+,"ETL - Elektrotechnická laboratoř, akreditovaná zkušební laboratoř dle ČSN EN ISO/IEC 17025:2018
+ETL - Electrical Laboratory, accredited by ČIA according to ČSN EN ISO/IEC 17025:2018",,,,,,,,,,,,,,,,
+,tab_2022/01,,,,,,,,,,,,,,,,
+,"Specifikace zařízení pro zkoušky elektromagnetické kompatibility
+Specifications of tested subject for EMC tests",,,,,,,,,,,,,,,,
+,"Prosíme o doplnění tabulky (žlutá pole). U některých položek je vytvořen rozbalovací seznam pro rychlejší vyplnění, případně jsou předvyplněny vzorovým příkladem. 
+Please fill the table (yellow fields). A drop-down list is created for some items for faster completion, or some fields are pre-filled with a an example.",,,,,,,,,,,,,,,,
+,"Po vyplnění tabulek budeme schopni vytvořit adekvátní nabídku na Vaše zařízení.
+We will be able to create an adequate offer for your device after filling of the tables.",,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,Poptávající: Costumer:,nextdrop s.r.o.,,,,,,,,,,,,,,,
+,"Adresa: 
+Address:","Cukrovarská 3006/20, Jižní Předměstí, 301 00 Plzeň",,,,,,,,,,,,,,,
+,"IČ / DIČ: 
+VAT number:",10818065,,CZ,,,,,,,,,,,,,
+,"Název zařízení: 
+Device name:",Řídící jednotka elektromagnetického ventilu,,,,,,,,,,,,,,,
+,"Sériové číslo*1):
+Serial number:",EMC prototyp 01,,,,,,,,,,,,,,,
+,"Verze HW:
+HW version:",2.0,,,,,,,,,,,,,,,
+,"Verze FW / SW:
+FW / SW version:",2.01,,,,,,,,,,,,,,,
+,"*1) V případě, že zařízení nemá přiřazené sériové číslo, uveďte označení prototypu (např. EMC protoyp 01).
+When the tested device doesn´t have a serial number, state the prototype number (f.e. EMC prototype 01).",,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,"EMC měření:
+EMC measurement:",certifikační /compliance,,,,,,,,,,,,,,,
+,"Protokol: 
+Test report:",ano /yes,,,,,,,,,,,,,,,
+,"Jazyk protokolu:
+Test report language:",česky /Czech,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,"Typ zařízení:
+Device type:",,,Řídící jednotka pro ovládání elektromagnetických aktuátorů a ventilu,,,,,,,,,,,,,
+,"Určeno pro prostředí:
+Intended for environment:",,,průmysl /industrial,,,,,,,,,,,,,
+,"Rozměry zařízení ŠxVxH:
+Device dimension Equipment WxHxD:",,,"cca /approx 0,062 x 0,076 x 0,018 m",,,,,,,,,,,,,
+,"Hmotnost zařízení:
+Device weight:",,,"cca /approx 0,1 kg",,,,,,,,,,,,,
+,"Napájení zařízení:
+Powered from:",,,DC jiné /DC different,,,,,,,,,,,,,
+,,"Specifikovaný AC/DC adaptér*2):
+Specified AC/DC adapter:",,ano /yes,,,,,,,,,,,,,
+,,"Typ specifikovaného AC/DC adaptéru*2):
+AC/DC adapter type:",,USB-C,,,,,,,,,,,,,
+,"Maximální vnitřní pracovní kmitočet zařízení: 
+Max. inner frequency of device:",,,> 108 MHz,,,,,,,,,,,,,
+,"Možné provozní režimy:
+Possible operating modes:",,,"Standby, DC výstup, AC výstup s možným DC offsettem, (harmonický, trojúhelníkový a obdélníkový). Možné ukládání příchozích povelů do paměti (spolu s časovým úsekem, po který by měli být platné) a jejich násedné sekvenční vykonání v pořadí FIFO.  ",,,,,,,,,,,,,
+,"Pomocná zařízení:
+Auxiliary devices:",,,Převodník USB na UART,,,,,,,,,,,,,
+,"Zařízení obsahuje magneticky citlivé komponenty:
+The device contains magnetically sensitive components:",,,ne /no,,,,,,,,,,,,,
+,"Požadavky na posouzení shody výsledků dle norem
+(vyberte, případně doplňte požadované):
+Standards specification:",,"emise:
+emission:",ČSN EN 55011,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,,,"odolnost:
+susceptibility:",ČSN EN 61000-6-2,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,"*2)  Pouze pro DC napájená zařízení. Pokud je specifikovaný AC/DC adaptér, je nutné jej dodat ke zkouškám EMC společně s testovaným zařízením.
+For DC powered devices only. If an AC / DC adapter is specified, it must be provided for EMC testing with the tested device..",,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,"Prosíme o doplnění možných rozhraní dle uvedených vzorů. Pokud je určena maximální délka připojeného kabelu a jeho typ, měl by být uveden v návodu použití výrobku.
+Please fill all interfaces according to the given patterns. If the length of the connected cable and its type are specified, it should be stated in the product's manual.",,,,,,,,,,,,,,,,
+,"Po vyplnění také rovnou uvidíte (orientačně, platí pro zařízení do domácností / průmyslu), jaké testy by se měly na zařízení provést (ANO v zeleném poli). 
+After filling all interfaces, you will also immediately see what tests should be performed on the device (ANO in the green field) (only for guidance, applies to household / industrial equipment)",,,,,,,,,,,,,,,,
+,Rozhraní /Interface,,,,,Testy odolnosti dle 61000-6-1 / 2 /susceptibility tests according to 61000-6-2 / 2,,,,,,,,,Emise dle 61000-6-3 / 4 /emission ,,
+,"Typ 
+Type","Označení
+designation","Délka rozhraní 
+possible cable lenght","Typ kabelu 
+cable type",Kabel připojený během měření Cable is connected during tests,61000-4-2,61000-4-3,61000-4-4,61000-4-5,61000-4-6,61000-4-8,61000-4-11,61000-4-12,61000-4-18,"Vzduchem
+radiated","napěťově
+conducted","proudově
+conducted"
+,kryt,–,–,–,– ,ANO,ANO,–,–,–,NE,–,,,ANO,–,–
+,vstup DC 24 V,,< 3 m,nestíněný /unshielded,ano /yes,–,–,ANO*,ANO*,ANO*,–,NE,,,–,ANO,NE
+,vstup analogový ADC 1,,< 3 m,stíněný /shielded,ano /yes,–,–,ANO*,ANO*,ANO*,–,NE,,,–,ANO,NE
+,vstup analogový ADC 2,,< 3 m,stíněný /shielded,ne /no,–,–,NE,NE,NE,–,NE,,,–,ANO,NE
+,RS232-2,–,< 3 m,nestíněný /unshielded,ano - servisní port /yes - service port,–,–,NE,NE,NE,–,NE,,,–,NE,ANO
+,výstup DC nebo AC max 10 A,,< 3 m,stíněný /shielded,ano /yes,–,–,ANO,ANO,ANO,–,NE,,,–,ANO,NE
+,CAN,,< 30 m (neopouští budovu) /not leave  building,stíněný+kroucený pár /shielded twisted pair,ano /yes,–,–,ANO,NE,ANO,–,NE,,,–,NE,ANO
+,"* Pokud je specifikován AC/DC napájecí adaptér, poté je testováno na AC straně tohoto adaptéru
+If the AC/DC adapter is specified, then the test is performed ad AC side of the adapter.",,,,,,,,,,,,,,,,
+,"V případě potřeby dalších rozhraní prosím zkopírujte řádky
+If you need add next interfaces, please copy the lines",,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,
+,"Poznámka / doplňující informace pro laboratoř:
+Note / additional information to the laboratory:",,,,,,,,,,,,,,,,
+,"Pokud byste chtěli upřesnit některé chybějící informace…
+Sběrnice CAN je vyvedena také na 4 pinový header. Jeden stíněný kabel připojuje proudový výstup k zátěži a případnou zpětnou vazbu (např poloha ventilu, apod.) ze zátěže na analogové konektory (ADC1, ADC2) zpět do zdroje.",,,,,,,,,,,,,,,,

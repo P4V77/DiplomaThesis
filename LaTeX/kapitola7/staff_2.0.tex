@@ -1,0 +1,99 @@
+\newpage
+\chapter{Aplikace Staff 2.0}
+
+Aplikace \textit{Staff 2.0} primárně slouží ke konfiguraci a řízení výstupních proudů zařízení \emph{MoSeZ}.
+Kromě toho implementuje mechanismy pro detekci a správu připojených zařízení prostřednictvím sériové komunikace.
+Aktivně monitoruje příchozí zprávy, na jejichž základě rozpoznává přítomnost a aktivitu jednotlivých jednotek.
+
+Vývoj aplikace vycházel z první verze \textit{Staff}, která byla vytvořena pro prototyp zařízení \emph{MoSeZ}.
+Pro tvorbu obou verzí aplikací bylo použito vývojové prostředí \textit{Matlab App Designer}.
+
+
+\section{Obsluha aplikace}
+
+
+Po spuštění počítače je nejprve nutné zvolit ve výběrovém seznamu (\textit{droplistu}) správný komunikační port,
+který odpovídá připojenému převodníku \textit{USB-CAN} nebo \textit{USB-UART}.
+Po výběru portu uživatel klikne na tlačítko \textit{Connect}, čímž aplikace zahájí sledování zpráv na sériovém rozhraní.
+Zprávy mohou být přenášeny přímo přes \textit{CAN} nebo se může jednat o výpis zpráv z \textit{CAN} na \textit{UART}.
+
+Aplikace na základě příchozích zpráv automaticky rozpozná připojená zařízení a pro každé z nich vytvoří odpovídající ovládací prvky v uživatelském rozhraní.
+Pro každý zdroj může uživatel konfigurovat parametry jako výstupní proud, typ výstupu (\textit{DC/AC}), frekvenci, fázi, offset, a další.
+
+Zapnutí a vypnutí konkrétního zdroje se provádí kliknutím na jeho \textit{ID label} v grafickém rozhraní.
+V případě, že některé z připojených zařízení přestane pravidelně odesílat zprávy typu \textit{Heartbeat},
+je po uplynutí definovaného časového limitu (aktuálně 15 sekund) automaticky označeno jako neaktivní a jeho ovládací prvky jsou z rozhraní odstraněny.
+
+Tento mechanismus zajišťuje, že uživatelské rozhraní vždy odráží aktuální stav připojených zařízení,
+a umožňuje dynamickou správu měnícího se počtu jednotek v síti bez nutnosti ručního zásahu.
+
+
+\section{Detekce připojených zařízení}
+
+Klíčovou roli v příjmu a zpracování dat ze sériové linky hraje funkce \texttt{serialRx}.
+Tato metoda dekóduje přicházející zprávy a hledá identifikátory zařízení (\textit{ID label}), které slouží k automatické detekci připojených jednotek \emph{MoSeZ}.
+
+\subsection{Formáty zpráv}
+
+Pro účely detekce zařízení se využívají následující formáty zpráv:
+
+\begin{table}[h!]
+	\centering
+	\caption{Přehled formátů zpráv použitých k detekci zařízení}
+	\begin{tabular}{|l|l|l|}
+		\hline
+		\textbf{Typ zprávy} & \textbf{Formát}             & \textbf{Příklad}          \\ \hline
+		Heartbeat           & \texttt{254HB<ID>}          & \texttt{254HB3}           \\ \hline
+		Zpráva s ID         & \texttt{<ID>ID...}          & \texttt{3IDxx}            \\ \hline
+		Teplotní zpráva     & \texttt{<ID>ID Temp: <v> C} & \texttt{3ID Temp: 27.5 C} \\ \hline
+	\end{tabular}
+	\label{tab:mosz_messages}
+\end{table}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\textwidth]{kapitola7/Figures/staff_connecting_sources.png}
+	\caption{Ukázka přidávání zdrojů v aplikaci Staff 2.0 na základě činnosti na \textit{CAN} sběrnici}
+	\label{fig:aplikace_staff_connecting}
+\end{figure}
+
+Po rozpoznání ID zařízení ve zprávě je volána funkce \texttt{handleDeviceMessage},
+která aktualizuje vnitřní stav aplikace. Konkrétně aktualizuje pole \texttt{connected\_sources},
+které udržuje informace o aktuálně připojených jednotkách.
+Při detekci nového zařízení aplikace dynamicky vytvoří v uživatelském rozhraní odpovídající ovládací prvky pomocí funkce \texttt{addNewMosezRow}.,
+například:
+
+\begin{itemize}
+	\item Přepínací tlačítko pro aktivaci/deaktivaci výstupu.
+	\item Spinner pro nastavení proudu.
+	\item Tlačítka pro volbu výstupu DC/AC.
+	\item Volbu průběhu pro AC výstup.
+	\item Spinnery pro parametry jako frekvence, offset, fáze a u obdélníku navíc střída a sklon hran.
+\end{itemize}
+
+\section{Zpracování neaktivity a odstranění zařízení}
+
+Detekce neaktivních zařízení je zajištěna pomocí periodického časovače \texttt{updateTimer},
+který spouští metodu \texttt{updateSourceRows}.
+Ta kontroluje čas poslední zprávy ze zařízení a porovnává jej s prahovou hodnotou \texttt{inactivityThreshold} (aktuálně 15 sekund).
+Pokud je zařízení neaktivní, volá se \texttt{deleteMoSeZRow}, čímž jsou jeho ovládací prvky odstraněny z GUI.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.9\textwidth]{kapitola7/Figures/staff_sources_timeout.png}
+	\caption{Ukázka odstranění neaktivních zařízení v aplikaci Staff 2.0}
+	\label{fig:aplikace_staff_disconnecting}
+\end{figure}
+
+Dále funkce \texttt{compactGridLayout} a \texttt{sortSourceRows} dynamicky upravují rozložení GUI při změně počtu zařízení.
+Výšku jednotlivých řádků upravuje \texttt{updateGridRowHeights},
+čímž je zajištěno správné zobrazení ovládacích prvků i při velkém počtu připojených jednotek.
+
+\section{Možnosti rozšíření}
+
+Aplikace by rovněž mohla zobrazovat historická data (např.  proudové a teplotní křivky) nebo graficky zvýrazňovat stav zařízení.
+Vylepšené hlášení chyb a systém notifikací by dále zlepšily použitelnost.
+Pokud by bylo potřeba provozovat aplikaci i na počítačích bez \textit{Matlabu},
+bylo by vhodné opustit \textit{Matlab App Designer} a přejít na alternativní platformu,
+jako například jako například \textit{Python} s knihovnami \textit{PyQt} nebo \textit{Tkinter} pro desktopové \textit{GUI},
+nebo \textit{C\#} s frameworky \textit{.NET MAUI} či \textit{WPF} pro multiplatformní desktopové aplikace.

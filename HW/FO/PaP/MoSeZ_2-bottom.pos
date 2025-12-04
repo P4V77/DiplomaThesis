@@ -1,0 +1,17 @@
+### Footprint positions - created on Wed 08 May 2024 12:57:34 PM CEST ###
+### Printed by KiCad version 7.0.11-7.0.11~ubuntu22.04.1
+## Unit = mm, Angle = deg.
+## Side : bottom
+# Ref     Val                Package                               PosX       PosY       Rot  Side
+D18       SMAJ48CA           D_SMA                               6.3308    14.8090    0.0000  bottom
+D19       SMAJ48CA           D_SMA                               8.1596     5.6462   90.0000  bottom
+FID4      Fiducial           Fiducial_1mm_Mask2mm               59.9248    53.4170  180.0000  bottom
+FID5      Fiducial           Fiducial_1mm_Mask2mm               72.2692     4.3950  180.0000  bottom
+FID6      Fiducial           Fiducial_1mm_Mask2mm               11.3092     4.3950  180.0000  bottom
+Q2        ISC080N10NM6ATMA1  Infineon_PG-TDSON-8_6.15x5.15mm    28.6320    44.4235   90.0000  bottom
+Q3        ISC080N10NM6ATMA1  Infineon_PG-TDSON-8_6.15x5.15mm    12.6740    44.4000   90.0000  bottom
+Q4        ISC080N10NM6ATMA1  Infineon_PG-TDSON-8_6.15x5.15mm    13.7978    18.4920  180.0000  bottom
+Q5        ISC080N10NM6ATMA1  Infineon_PG-TDSON-8_6.15x5.15mm    28.3018    18.4412    0.0000  bottom
+R34       12m                R_2512_6332Metric                  29.0638    11.2530  -90.0000  bottom
+U9        MCP9700T-ELT       SOT-353_SC-70-5                    30.3338    27.6360    0.0000  bottom
+## End

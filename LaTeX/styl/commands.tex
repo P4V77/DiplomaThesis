@@ -1,0 +1,66 @@
+%#######################################################################
+%#   commands.tex  - Vlastní přikazy pro zpřehlednění výsledné práce   #
+%#######################################################################
+
+% -------------------------
+% ------- Obrázky ---------
+% -------------------------
+% nový přikaz  \obr{velikost}{nazevobrazku s priponou}{popis obrazku}
+% přiklad \obr{1}{obrazek}{Graf popisujici blabala....}
+
+
+\DeclareSIUnit{\baud}{Bd}         % unit for modulation rate / line digit rate (13-16)
+
+\newcommand{\obrH}[4]{\begin{figure}[H] % Pramatery H urcuje fixovani pozice obrazku na vlozenem miste 
+		\centering
+		\includegraphics[scale=#1]{#2}
+		\caption{#3}
+		\label{obr:#4}
+	\end{figure}}
+
+\newcommand{\obr}[4]{\begin{figure}
+		\centering
+		\includegraphics[scale=#1]{#2}
+		\caption{#3}
+		\label{obr:#4}
+	\end{figure}}
+
+% -------------------------
+% --------- TODO ----------
+% -------------------------
+% Při odkomentování následujícího řádku můžete vkládat velmi jednoduché poznámky
+\newcommand\todo[1]{\textcolor{red}{TODO: #1\newline}}
+
+% Pro složitější tvorbu úkolů, odkomentujte následující 4 řádky. V kombinaci s tímto doporučujeme dočasně odkomentovat i styl/seznamy.tex a seznam TODO
+%\usepackage[colorinlistoftodos,prependcaption,textsize=tiny]{todonotes}
+%\usepackage{regexpatch}
+%\makeatletter
+%\xpatchcmd{\@todo}{\setkeys{todonotes}{#1}}{\setkeys{todonotes}{inline,#1}}{}{}
+
+% Oba systémy úkolů se následně využívají takto:
+%\todo{Chybí tu zmínit měření magnetického pole!}
+
+% -------------------------
+% -------- Nadpis ---------
+% -------------------------
+\newcommand{\nadpis}[1]{
+	\noindent{\large{\textbf{#1}}}\\
+}
+
+% ----------------------------
+%  Nastavení jednotek u rovnic 
+% ----------------------------
+\makeatletter
+\providecommand\add@text{}
+\newcommand\tagaddtext[1]{%
+	\gdef\add@text{#1\gdef\add@text{}}}% 
+\renewcommand\tagform@[1]{%
+	\maketag@@@{\llap{\add@text\quad}(\ignorespaces#1\unskip\@@italiccorr)}%
+}
+\makeatother
+
+\newcommand{\rov}[2]{
+	\begin{equation}
+		#1 \tagaddtext{($#2$)}
+	\end{equation}
+}

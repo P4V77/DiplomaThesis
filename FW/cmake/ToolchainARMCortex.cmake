@@ -1,0 +1,13 @@
+#set(CMAKE_TOOLCHAIN_FILE "ToolchainARMCortex.cmake")
+
+# Cros scompile for ARM
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_C_COMPILER   arm-none-eabi-gcc)
+set(CMAKE_CXX_COMPILER arm-none-eabi-g++)
+set(CMAKE_OBJCOPY arm-none-eabi-objcopy)
+set(CMAKE_FIND_ROOT_PATH /home/pavel/GCC-arm/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin)
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)

@@ -1,0 +1,53 @@
+% Import data from Excel
+filename = 'meassurement.xlsx'; % Replace with your Excel file name
+data = readtable(filename);
+
+% Extract height and voltage columns
+heights = str2double(data{:, 1}); % Assuming height is in the first columns
+voltages = str2double(data{:, 2}); % Assuming voltage is in the second column
+
+% Interpolation to create the height function
+interpFunc = @(V) interp1(voltages, heights, V, 'makima'); 
+
+% Define the voltage range for LUT
+range = 500;
+voltage_range = linspace(min(voltages), max(voltages),range);
+resolution = (max(voltages)-min(voltages))/range
+% h_range = linspace(min(voltages), max(voltages),1000);
+h_interp = arrayfun(interpFunc, voltage_range);
+
+
+% Open file for writing
+relative_path = "../../FW (Aron_2.0) /src/h_interp.hpp";
+
+fileID = fopen(relative_path, 'w');
+
+% Write header information
+fprintf(fileID, '#ifndef    H_INTERP_HPP\n');
+fprintf(fileID, '#define H_INTERP_HPP\n\n');
+fprintf(fileID, 'constexpr float lut_voltage_min = %ff; \n',min(voltages));
+fprintf(fileID, 'constexpr float lut_voltage_max = %ff; \n',max(voltages));
+fprintf(fileID, 'constexpr float lut_voltage_resolution = %ff; \n',resolution);
+fprintf(fileID, 'constexpr uint16_t lut_voltage_range = %d; \n',range-1);
+
+fprintf(fileID, 'const float LUT[] = {\n');
+
+% Write LUT values
+for i = 1:length(h_interp)
+    fprintf(fileID, '    %ff,\n', h_interp(i));
+end
+
+% Write closing bracket and define the array size
+fprintf(fileID, '};\n\n');
+
+% Close file
+fprintf(fileID, '#endif // H_INTERP_HPP\n');
+fclose(fileID);
+
+disp('LUT saved as h_interp.hpp');
+figure(1)
+plot(heights,voltages);
+
+figure(2)
+plot(arrayfun(interpFunc, voltage_range));
+hold off

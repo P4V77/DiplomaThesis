@@ -1,0 +1,6 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "LMR38010")(type "KiCad")(uri "${KIPRJMOD}/Footprints/LMR38010")(options "")(descr ""))
+  (lib (name "Footprints")(type "KiCad")(uri "${KIPRJMOD}/Footprints")(options "")(descr ""))
+  (lib (name "Loga")(type "KiCad")(uri "${KIPRJMOD}/Loga")(options "")(descr ""))
+)

@@ -1,0 +1,16 @@
+*.aux
+*.bcf
+*.lof
+*.log
+*.lot
+*.out
+main.pdf
+*.run.xml
+*.synctex.gz
+*.toc
+*eps-converted-to.pdf
+*.bbl
+*.blg
+*-blx.bib
+*.fdb_latexmk
+*.fls
